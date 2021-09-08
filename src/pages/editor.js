@@ -9,7 +9,6 @@ const Editor = () => (
 
 export const EditorRoute = ({ path }) => {
   const { loggedIn } = useSelector((state) => state.user.value);
-  console.log(loggedIn);
 
   return (
     <Route path={path}>
