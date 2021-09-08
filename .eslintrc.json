@@ -33,6 +33,7 @@
             "imports": "never",
             "exports": "never",
             "functions": "never"
-        }]
+        }],
+        "no-param-reassign": ["error", { "props": false }]
     }
 }
