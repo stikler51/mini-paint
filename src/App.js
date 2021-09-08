@@ -3,15 +3,16 @@ import {
   BrowserRouter as Router,
   Switch,
   Route
-  // Redirect
 } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import Header from './components/layout/header/header';
 import Home from './pages/home';
-import SignIn from './pages/signIn';
-import Register from './pages/register';
+import { SignInRoute } from './pages/signIn';
+import { RegisterRoute } from './pages/register';
+import { UserRoute } from './pages/user';
 import { EditorRoute } from './pages/editor';
 import store from './store/store';
+import LoadingIndicator from './components/layout/loader/loader';
 
 function App() {
   return (
@@ -21,12 +22,9 @@ function App() {
           <Header />
           <div className="container">
             <Switch>
-              <Route path="/signin">
-                <SignIn />
-              </Route>
-              <Route path="/register">
-                <Register />
-              </Route>
+              <SignInRoute path="/signin" />
+              <RegisterRoute path="/register" />
+              <UserRoute path="/user" />
               <EditorRoute path="/editor" />
               <Route exact path="/">
                 <Home />
@@ -34,6 +32,7 @@ function App() {
             </Switch>
           </div>
         </div>
+        <LoadingIndicator />
       </Router>
     </Provider>
   );
