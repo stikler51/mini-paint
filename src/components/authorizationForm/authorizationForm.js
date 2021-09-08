@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-// import { useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
   Link,
@@ -11,6 +11,7 @@ const AuthorizationForm = ({ cb, action }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { pathname } = useLocation();
+  const user = useSelector((state) => state.user.value);
 
   return (
     <div className={styles.formWrapper}>
@@ -48,6 +49,12 @@ const AuthorizationForm = ({ cb, action }) => {
               <Link to="/register">Create one</Link>
             </span>
           ) : ''
+        }
+
+        {
+          user && user.errors
+            ? <span className={styles.error}>{user.errors}</span>
+            : ''
         }
 
       </div>

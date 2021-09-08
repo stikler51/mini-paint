@@ -5,7 +5,8 @@ export const userSlice = createSlice({
   initialState: {
     value: {
       user: null,
-      loggedIn: false
+      loggedIn: false,
+      errors: null
     }
   },
   reducers: {
@@ -20,10 +21,13 @@ export const userSlice = createSlice({
         user: null,
         loggedIn: false
       };
+    },
+    setError: (state, action) => {
+      state.value.errors = action.payload;
     }
   }
 });
 
-export const { login, logout } = userSlice.actions;
+export const { login, logout, setError } = userSlice.actions;
 
 export default userSlice.reducer;
