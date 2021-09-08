@@ -3,8 +3,11 @@ import {
   getAuth,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
-  signOut
+  signOut,
+  onAuthStateChanged
 } from 'firebase/auth';
+import store from '../store/store';
+import { login, logout } from '../store/userSlice';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -19,13 +22,27 @@ initializeApp(firebaseConfig);
 
 export const auth = getAuth();
 
+// Changing redux user state on every login/logout event
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    console.log('sign in from listener', user);
+    store.dispatch(login({
+      uid: user.uid,
+      email: user.email,
+      accessToken: user.accessToken
+    }));
+    return;
+  }
+  console.log('sign out from listener');
+  store.dispatch(logout());
+});
+
 export const authorizeUser = (email, password) => {
   signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       // Signed in
       const { user } = userCredential;
-      console.log(user);
-      console.log(userCredential);
+      console.log('login', user);
     })
     .catch((error) => {
       const errorCode = error.code;
@@ -39,7 +56,7 @@ export const registerUser = (email, password) => {
     .then((userCredential) => {
       // Signed in
       const { user } = userCredential;
-      console.log(user);
+      console.log('register', user);
     })
     .catch((error) => {
       const errorCode = error.code;
