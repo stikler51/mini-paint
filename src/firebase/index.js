@@ -33,12 +33,16 @@ onAuthStateChanged(auth, (user) => {
       email: user.email,
       accessToken: user.accessToken
     }));
+    // Saving loggedIn state in session storage because of
+    // when user is authorized and page is reloading,
+    // /editor page redirects to /signin page
+    sessionStorage.setItem('mini-paint-loggedIn', true);
     store.dispatch(setError(null));
-
     console.log(store.getState());
     return;
   }
   console.log('sign out from listener');
+  sessionStorage.setItem('mini-paint-loggedIn', false);
   store.dispatch(stopLoading());
   store.dispatch(logout());
   store.dispatch(setError(null));
@@ -48,43 +52,34 @@ onAuthStateChanged(auth, (user) => {
 export const authorizeUser = (email, password) => {
   store.dispatch(startLoading());
   signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      // Signed in
-      const { user } = userCredential;
-      console.log('login', user);
+    .then(() => {
+      sessionStorage.setItem('mini-paint-loggedIn', true);
     })
     .catch((error) => {
       store.dispatch(setError(error.message));
       store.dispatch(stopLoading());
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.log(errorCode, errorMessage);
     });
 };
 
 export const registerUser = (email, password) => {
   store.dispatch(startLoading());
   createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      const { user } = userCredential;
-      console.log('register', user);
+    .then(() => {
+      sessionStorage.setItem('mini-paint-loggedIn', true);
     })
     .catch((error) => {
       store.dispatch(stopLoading());
       store.dispatch(setError(error.message));
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.log(errorCode, errorMessage);
     });
 };
 
 export const signOutUser = () => {
   store.dispatch(startLoading());
+  sessionStorage.setItem('mini-paint-loggedIn', false);
   signOut(auth).then(() => {
     console.log('Sign-out successful.');
   }).catch((error) => {
     store.dispatch(stopLoading());
-    store.dispatch(setError(error.message));
-    console.log(error);
+    console.log(error.message);
   });
 };
