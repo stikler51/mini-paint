@@ -1,4 +1,12 @@
 .drawingArea {
-    border: 1px solid black;
+    // border: 1px solid black;
     max-width: 100%;
+    box-shadow: 0px 2px 15px 0px rgba(34, 60, 80, 0.09);
+    padding: 10px;
+    border-radius: 8px;
+
+    canvas {
+        border: 1px solid rgba(34, 60, 80, 0.09);
+        display: block;
+    }
 }
