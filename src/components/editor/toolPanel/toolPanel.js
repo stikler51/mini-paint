@@ -1,21 +1,19 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { enableTool } from '../../../store/toolSlice';
+import { enableTool, setColor } from '../../../store/toolSlice';
 import styles from './toolPanel.module.scss';
 
 const tools = [
   { value: 'pen', icon: '/icons/pen.svg' },
   { value: 'rectangle', icon: '/icons/rectangle.svg' },
-  { value: 'ellipse', icon: '/icons/ellipse.svg' }
+  { value: 'ellipse', icon: '/icons/ellipse.svg' },
+  { value: 'line', icon: '/icons/line.svg' }
 ];
 
 const ToolPanel = () => {
-  const { activeTool } = useSelector((state) => state.tool.value);
+  const { activeTool, color } = useSelector((state) => state.tool.value);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    console.log(activeTool);
-  }, [activeTool]);
+  console.log('yyooyoy', color);
 
   return (
     <div className={styles.toolPanelWrapper}>
@@ -29,6 +27,15 @@ const ToolPanel = () => {
           <img src={tool.icon} alt={`${tool.value} tool`} />
         </button>
       ))}
+
+      <div className={`${styles.colorPickerWrapper}`} style={{ background: color }}>
+        <input
+          type="color"
+          onBlur={(e) => dispatch(setColor(e.target.value))}
+          className={styles.colorPicker}
+          defaultValue={color}
+        />
+      </div>
     </div>
   );
 };
