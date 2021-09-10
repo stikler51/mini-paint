@@ -6,11 +6,12 @@ import styles from './drawingArea.module.scss';
 import pen from '../drawingTools/pen';
 import rectangle from '../drawingTools/rectangle';
 import ellipse from '../drawingTools/ellipse';
+import line from '../drawingTools/line';
 
 const DrawingArea = () => {
   const canvas = useRef();
   const [isPainting, setIsPainting] = useState(false);
-  const [ctx, setCtx] = useState('wapap');
+  const [ctx, setCtx] = useState(null);
   const [canvasOffset, setCanvasOffset] = useState({
     left: 0,
     top: 0
@@ -23,19 +24,28 @@ const DrawingArea = () => {
   const tools = {
     pen,
     rectangle,
-    ellipse
+    ellipse,
+    line
   };
 
-  const { activeTool } = useSelector((state) => state.tool.value);
+  const { activeTool, color } = useSelector((state) => state.tool.value);
 
   useEffect(() => {
     const canvasCtx = canvas.current.getContext('2d');
+    canvasCtx.strokeStyle = color;
     setCtx(canvasCtx);
     setCanvasOffset({
       left: canvas.current.offsetLeft,
       top: canvas.current.offsetTop
     });
   }, []);
+
+  useEffect(() => {
+    if (ctx) {
+      console.log('yoyoyoy', color);
+      ctx.strokeStyle = color;
+    }
+  }, [color]);
 
   const onMouseDown = (e) => {
     const startPosition = tools[activeTool].onMouseDown(e, ctx, canvasOffset, setIsPainting);
@@ -53,16 +63,18 @@ const DrawingArea = () => {
   };
 
   return (
-    <canvas
-      ref={canvas}
-      id="canvas"
-      onMouseDown={(e) => onMouseDown(e)}
-      onMouseMove={(e) => onMouseMove(e)}
-      onMouseUp={() => onMouseUp()}
-      className={styles.drawingArea}
-      width="760px"
-      height="480px"
-    />
+    <div className={styles.drawingArea}>
+      <canvas
+        ref={canvas}
+        id="canvas"
+        onMouseDown={(e) => onMouseDown(e)}
+        onMouseMove={(e) => onMouseMove(e)}
+        onMouseUp={() => onMouseUp()}
+        width="760px"
+        height="480px"
+      />
+    </div>
+
   );
 };
 
