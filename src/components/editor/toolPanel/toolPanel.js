@@ -28,13 +28,15 @@ const ToolPanel = () => {
         </button>
       ))}
 
-      <div className={`${styles.colorPickerWrapper}`} style={{ background: color }}>
-        <input
-          type="color"
-          onBlur={(e) => dispatch(setColor(e.target.value))}
-          className={styles.colorPicker}
-          defaultValue={color}
-        />
+      <div className={`${styles.colorPickerWrapper}`}>
+        <div style={{ background: color }} className={styles.colorIndicator}>
+          <input
+            type="color"
+            onBlur={(e) => dispatch(setColor(e.target.value))}
+            className={styles.colorPicker}
+            defaultValue={color}
+          />
+        </div>
       </div>
     </div>
   );
