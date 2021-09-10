@@ -1,6 +1,7 @@
 import React, {
   useRef, useEffect, useState
 } from 'react';
+import { useSelector } from 'react-redux';
 import styles from './drawingArea.module.scss';
 import pen from '../drawingTools/pen';
 import rectangle from '../drawingTools/rectangle';
@@ -25,7 +26,7 @@ const DrawingArea = () => {
     ellipse
   };
 
-  const activeTool = tools.ellipse;
+  const { activeTool } = useSelector((state) => state.tool.value);
 
   useEffect(() => {
     const canvasCtx = canvas.current.getContext('2d');
@@ -37,17 +38,18 @@ const DrawingArea = () => {
   }, []);
 
   const onMouseDown = (e) => {
-    const startPosition = activeTool.onMouseDown(e, ctx, canvasOffset, setIsPainting);
+    const startPosition = tools[activeTool].onMouseDown(e, ctx, canvasOffset, setIsPainting);
     setStartDrawingPosition(startPosition);
     setCanvasData(ctx.getImageData(0, 0, 760, 480));
   };
 
   const onMouseMove = (e) => {
-    activeTool.onMouseMove(e, ctx, canvasOffset, isPainting, startDrawingPosition, canvasData);
+    tools[activeTool]
+      .onMouseMove(e, ctx, canvasOffset, isPainting, startDrawingPosition, canvasData);
   };
 
   const onMouseUp = () => {
-    activeTool.onMouseUp(setIsPainting);
+    tools[activeTool].onMouseUp(setIsPainting);
   };
 
   return (
