@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router';
 import { useSelector } from 'react-redux';
-import DrawingArea from '../components/editor/drawingArea/drawingArea';
+import EditorWrapper from '../components/editor/editorWrapper/editorWrapper';
 
 const Editor = () => (
   <>
     <h1>Editor Page</h1>
-    <DrawingArea />
+    <EditorWrapper />
   </>
 );
 
