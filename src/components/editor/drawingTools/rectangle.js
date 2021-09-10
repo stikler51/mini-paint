@@ -2,7 +2,6 @@ export default {
   onMouseDown: (e, context, canvasOffset, setIsPainting) => {
     console.log('yo down');
     setIsPainting(true);
-    context.fillStyle = 'rgb(200,0,0)';
     const start = {
       top: e.pageY - canvasOffset.top,
       left: e.pageX - canvasOffset.left
