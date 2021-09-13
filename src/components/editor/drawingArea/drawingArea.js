@@ -8,6 +8,8 @@ import rectangle from '../drawingTools/rectangle';
 import ellipse from '../drawingTools/ellipse';
 import line from '../drawingTools/line';
 
+// TODO : add linewidth state dispatcher
+
 const DrawingArea = () => {
   const canvas = useRef();
   const [isPainting, setIsPainting] = useState(false);
@@ -28,11 +30,12 @@ const DrawingArea = () => {
     line
   };
 
-  const { activeTool, color } = useSelector((state) => state.tool.value);
+  const { activeTool, color, lineWidth } = useSelector((state) => state.tool.value);
 
   useEffect(() => {
     const canvasCtx = canvas.current.getContext('2d');
     canvasCtx.strokeStyle = color;
+    canvasCtx.lineWidth = lineWidth;
     setCtx(canvasCtx);
     setCanvasOffset({
       left: canvas.current.offsetLeft,
@@ -42,10 +45,15 @@ const DrawingArea = () => {
 
   useEffect(() => {
     if (ctx) {
-      console.log('yoyoyoy', color);
       ctx.strokeStyle = color;
     }
   }, [color]);
+
+  useEffect(() => {
+    if (ctx) {
+      ctx.lineWidth = lineWidth;
+    }
+  }, [lineWidth]);
 
   const onMouseDown = (e) => {
     const startPosition = tools[activeTool].onMouseDown(e, ctx, canvasOffset, setIsPainting);

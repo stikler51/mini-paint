@@ -8,6 +8,7 @@
   border: none;
   border-radius: 6px;
   transition: 0.3s;
+  position: relative;
   &:hover {
     background: #f1f2f3;
   }
@@ -58,4 +59,19 @@
   width: 100%;
   height: 100%;
   opacity: 0;
+}
+
+.lineWidthWrapper {
+  position: absolute;
+  top: 100%;
+  left: transform(translate(-50%));
+  z-index: 2;
+  box-shadow: 0px 2px 15px 0px rgba(34, 60, 80, 0.09);
+  padding: 15px;
+  border-radius: 8px;
+  background: white;
+}
+
+.widthExample {
+  display: block;
 }

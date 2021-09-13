@@ -5,25 +5,35 @@ export const toolSlice = createSlice({
   initialState: {
     value: {
       activeTool: 'pen',
-      color: '#000000'
+      color: '#000000',
+      lineWidth: 1
     }
   },
   reducers: {
     enableTool: (state, action) => {
       state.value = {
         activeTool: action.payload,
-        color: state.value.color
+        color: state.value.color,
+        lineWidth: state.value.lineWidth
       };
     },
     setColor: (state, action) => {
       state.value = {
         activeTool: state.value.activeTool,
-        color: action.payload
+        color: action.payload,
+        lineWidth: state.value.lineWidth
+      };
+    },
+    setLineWidth: (state, action) => {
+      state.value = {
+        activeTool: state.value.activeTool,
+        color: state.value.color,
+        lineWidth: action.payload
       };
     }
   }
 });
 
-export const { enableTool, setColor } = toolSlice.actions;
+export const { enableTool, setColor, setLineWidth } = toolSlice.actions;
 
 export default toolSlice.reducer;

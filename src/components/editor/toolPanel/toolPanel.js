@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { enableTool, setColor } from '../../../store/toolSlice';
+import { enableTool, setColor, setLineWidth } from '../../../store/toolSlice';
 import styles from './toolPanel.module.scss';
 
 const tools = [
@@ -10,10 +10,30 @@ const tools = [
   { value: 'line', icon: '/icons/line.svg' }
 ];
 
+// TODO : add linewidth state dispatcher
+
 const ToolPanel = () => {
-  const { activeTool, color } = useSelector((state) => state.tool.value);
+  const [openWidthButton, setOpenWidthButton] = useState(false);
+  // const [lineWidth, setLineWidth] = useState(1);
+  const wrapperRef = useRef(null);
+  const { activeTool, color, lineWidth } = useSelector((state) => state.tool.value);
   const dispatch = useDispatch();
-  console.log('yyooyoy', color);
+
+  function useOutsideClick(ref) {
+    useEffect(() => {
+      function handleClickOutside(event) {
+        if (ref.current && !ref.current.contains(event.target)) {
+          setOpenWidthButton(false);
+        }
+      }
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
+    }, [ref]);
+  }
+
+  useOutsideClick(wrapperRef);
 
   return (
     <div className={styles.toolPanelWrapper}>
@@ -27,6 +47,39 @@ const ToolPanel = () => {
           <img src={tool.icon} alt={`${tool.value} tool`} />
         </button>
       ))}
+
+      <button
+        type="button"
+        onClick={() => setOpenWidthButton(true)}
+        className={styles.toolButton}
+      >
+        <img src="./icons/width.svg" alt="line width tool" />
+
+        {
+          openWidthButton
+            ? (
+              <div className={styles.lineWidthWrapper} ref={wrapperRef}>
+                <input
+                  type="range"
+                  min="1"
+                  max="12"
+                  step="1"
+                  value={lineWidth}
+                  onChange={(e) => dispatch(setLineWidth(+e.target.value))}
+                />
+                <div
+                  className={styles.widthExample}
+                  style={{ height: lineWidth, background: color }}
+                />
+                <span>
+                  {lineWidth}
+                  px
+                </span>
+              </div>
+            )
+            : ''
+        }
+      </button>
 
       <div className={`${styles.colorPickerWrapper}`}>
         <div style={{ background: color }} className={styles.colorIndicator}>
