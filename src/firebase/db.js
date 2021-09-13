@@ -13,7 +13,7 @@ import {
   where
 } from 'firebase/firestore';
 import { startLoading, stopLoading } from '../store/loadingSlice';
-import { createNewArt } from '../store/artSlice';
+// import { createNewArt } from '../store/artSlice';
 
 import store from '../store/store';
 
@@ -39,8 +39,9 @@ export const saveArt = async (imageData) => {
   const { uid } = store.getState().user.value.user;
   const artRef = collection(db, 'art');
   const art = await addDoc(artRef, { uid, imageData });
-  store.dispatch(createNewArt(art.id));
+  // store.dispatch(createNewArt(art.id));
   store.dispatch(stopLoading());
+  return art.id;
 };
 
 export const updateArt = async (imageData, id) => {

@@ -2,7 +2,7 @@ import React, {
   useRef, useEffect, useState
 } from 'react';
 import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import styles from './drawingArea.module.scss';
 import pen from '../drawingTools/pen';
 import rectangle from '../drawingTools/rectangle';
@@ -31,6 +31,7 @@ const DrawingArea = () => {
   };
 
   const { artId } = useParams();
+  const history = useHistory();
 
   const { activeTool, color, lineWidth } = useSelector((state) => state.tool.value);
 
@@ -91,7 +92,7 @@ const DrawingArea = () => {
 
   const saveArtToDb = () => {
     const dataURL = canvas.current.toDataURL();
-    saveArt(dataURL);
+    saveArt(dataURL).then((id) => history.push(`/editor/${id}`));
   };
 
   const updateArtInDb = () => {
