@@ -2,9 +2,12 @@ import React from 'react';
 import { Route, Redirect } from 'react-router';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+import ImageGallery from '../components/imageGallery/imageGallery';
 
 const User = () => {
+  // const [gallery, setGallery] = useState([]);
   const { user } = useSelector((state) => state.user.value);
+
   return (
     <>
       <h1>Your account</h1>
@@ -22,6 +25,7 @@ const User = () => {
           </>
         ) : ''
       }
+      <ImageGallery />
     </>
   );
 };
