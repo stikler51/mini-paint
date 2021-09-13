@@ -2,11 +2,13 @@ import React, {
   useRef, useEffect, useState
 } from 'react';
 import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import styles from './drawingArea.module.scss';
 import pen from '../drawingTools/pen';
 import rectangle from '../drawingTools/rectangle';
 import ellipse from '../drawingTools/ellipse';
 import line from '../drawingTools/line';
+import { saveArt, getOneArt, updateArt } from '../../../firebase/db';
 
 const DrawingArea = () => {
   const canvas = useRef();
@@ -28,12 +30,24 @@ const DrawingArea = () => {
     line
   };
 
+  const { artId } = useParams();
+
   const { activeTool, color, lineWidth } = useSelector((state) => state.tool.value);
 
   useEffect(() => {
     const canvasCtx = canvas.current.getContext('2d');
     canvasCtx.strokeStyle = color;
     canvasCtx.lineWidth = lineWidth;
+
+    if (artId) {
+      getOneArt(artId)
+        .then((art) => {
+          const image = new Image();
+          image.src = art.data().imageData;
+          canvasCtx.drawImage(image, 0, 0);
+        });
+    }
+
     setCtx(canvasCtx);
     setCanvasOffset({
       left: canvas.current.offsetLeft,
@@ -75,6 +89,16 @@ const DrawingArea = () => {
     }
   };
 
+  const saveArtToDb = () => {
+    const dataURL = canvas.current.toDataURL();
+    saveArt(dataURL);
+  };
+
+  const updateArtInDb = () => {
+    const dataURL = canvas.current.toDataURL();
+    updateArt(dataURL, artId);
+  };
+
   return (
     <div className={styles.drawingArea}>
       <canvas
@@ -95,7 +119,13 @@ const DrawingArea = () => {
         >
           Clear
         </button>
-        <button type="button" className="btn btn-success">Save</button>
+        <button
+          type="button"
+          className="btn btn-success"
+          onClick={artId ? updateArtInDb : saveArtToDb}
+        >
+          {artId ? 'Update' : 'Save'}
+        </button>
       </div>
     </div>
   );
