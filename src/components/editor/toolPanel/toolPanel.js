@@ -50,7 +50,7 @@ const ToolPanel = () => {
         onClick={() => setOpenWidthButton(true)}
         className={styles.toolButton}
       >
-        <img src="./icons/width.svg" alt="line width tool" />
+        <img src="/icons/width.svg" alt="line width tool" />
 
         {
           openWidthButton
