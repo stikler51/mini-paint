@@ -30,7 +30,9 @@ export const getAllArts = async () => {
 };
 
 export const getAllArtsByUser = async (uid) => {
+  store.dispatch(startLoading());
   const usersArts = await getDocs(query(collection(db, 'art'), where('uid', '==', uid)));
+  store.dispatch(stopLoading());
   return usersArts.docs;
 };
 
