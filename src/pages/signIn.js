@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import AuthorizationForm from '../components/authorizationForm/authorizationForm';
 import {
   authorizeUser
-} from '../firebase';
+} from '../firebase/auth';
 
 const SignIn = () => (
   <>

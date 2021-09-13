@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { signOutUser } from '../../../firebase/index';
+import { signOutUser } from '../../../firebase/auth';
 import styles from './header.module.scss';
 
 const Header = () => {
