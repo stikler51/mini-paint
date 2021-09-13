@@ -13,6 +13,7 @@ import { UserRoute } from './pages/user';
 import { EditorRoute } from './pages/editor';
 import store from './store/store';
 import LoadingIndicator from './components/layout/loader/loader';
+import Modal from './components/layout/modal/modal';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
               <SignInRoute path="/signin" />
               <RegisterRoute path="/register" />
               <UserRoute path="/user" />
+              <EditorRoute path="/editor/:artId" />
               <EditorRoute path="/editor" />
               <Route exact path="/">
                 <Home />
@@ -33,6 +35,7 @@ function App() {
           </div>
         </div>
         <LoadingIndicator />
+        <Modal />
       </Router>
     </Provider>
   );

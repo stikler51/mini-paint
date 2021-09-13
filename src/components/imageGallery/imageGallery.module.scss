@@ -1,0 +1,57 @@
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 15px;
+}
+
+.artWrapper {
+  box-shadow: 0px 2px 15px 0px rgba(34, 60, 80, 0.09);
+  padding: 10px;
+  border-radius: 8px;
+  position: relative;
+
+  img {
+    width: 100%;
+    border: 1px solid rgba(34, 60, 80, 0.09);
+  }
+
+  &:hover {
+    .actionsLayer {
+      display: flex;
+    }
+  }
+}
+
+.actionsLayer {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  background: #FFFFFF20;
+  backdrop-filter: blur(4px);
+  transition: 0.3s;
+}
+
+.actionButton {
+  display: block;
+  background: transparent;
+  background-color: transparent;
+  border-radius: 8px;
+  border: none;
+  transition: 0.3s;
+  padding: 10px;
+  img {
+    width: 25px;
+    height: auto;
+    border: none;
+  }
+
+  &:hover {
+    background:rgba(34, 60, 80, 0.09)
+  }
+}
