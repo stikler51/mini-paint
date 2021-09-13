@@ -1,0 +1,27 @@
+.modalWrapper {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #00000080;
+  backdrop-filter: blur(2px);
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.modal {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0px 2px 15px 0px rgba(34, 60, 80, 0.09);
+  padding: 20px;
+
+  &:hover {
+    cursor: default;
+  }
+}
