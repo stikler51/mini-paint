@@ -32,6 +32,9 @@ const ImageGallery = () => {
   return (
     <>
       <h2>Gallery</h2>
+      {
+        !gallery.length ? 'You have not created any drawings yet.' : ''
+      }
       <div className={styles.gallery}>
         {
           gallery.map((doc) => (
