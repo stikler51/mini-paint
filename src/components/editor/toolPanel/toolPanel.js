@@ -10,11 +10,8 @@ const tools = [
   { value: 'line', icon: '/icons/line.svg' }
 ];
 
-// TODO : add linewidth state dispatcher
-
 const ToolPanel = () => {
   const [openWidthButton, setOpenWidthButton] = useState(false);
-  // const [lineWidth, setLineWidth] = useState(1);
   const wrapperRef = useRef(null);
   const { activeTool, color, lineWidth } = useSelector((state) => state.tool.value);
   const dispatch = useDispatch();

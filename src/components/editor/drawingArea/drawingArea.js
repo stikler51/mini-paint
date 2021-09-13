@@ -8,8 +8,6 @@ import rectangle from '../drawingTools/rectangle';
 import ellipse from '../drawingTools/ellipse';
 import line from '../drawingTools/line';
 
-// TODO : add linewidth state dispatcher
-
 const DrawingArea = () => {
   const canvas = useRef();
   const [isPainting, setIsPainting] = useState(false);
@@ -70,6 +68,13 @@ const DrawingArea = () => {
     tools[activeTool].onMouseUp(setIsPainting);
   };
 
+  const clearCanvas = () => {
+    const sure = window.confirm('Are you sure?');
+    if (sure) {
+      ctx.clearRect(0, 0, 760, 480);
+    }
+  };
+
   return (
     <div className={styles.drawingArea}>
       <canvas
@@ -81,8 +86,18 @@ const DrawingArea = () => {
         width="760px"
         height="480px"
       />
-    </div>
 
+      <div className={styles.bottomPanel}>
+        <button
+          type="button"
+          className="btn btn-danger"
+          onClick={clearCanvas}
+        >
+          Clear
+        </button>
+        <button type="button" className="btn btn-success">Save</button>
+      </div>
+    </div>
   );
 };
 
