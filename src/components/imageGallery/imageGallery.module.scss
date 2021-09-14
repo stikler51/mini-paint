@@ -35,6 +35,7 @@
   background: #FFFFFF20;
   backdrop-filter: blur(4px);
   transition: 0.3s;
+  flex-wrap: wrap;
 }
 
 .actionButton {
@@ -53,5 +54,15 @@
 
   &:hover {
     background:rgba(34, 60, 80, 0.09)
+  }
+}
+
+.aboutArt {
+  width: 100%;
+
+  p {
+    margin-bottom: 0;
+    font-size: 12px;
+    text-align: center;
   }
 }

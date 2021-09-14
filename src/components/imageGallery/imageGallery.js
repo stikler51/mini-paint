@@ -1,13 +1,13 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-// import { getAllArtsByUser, deleteArt } from '../../firebase/db';
 import { openModal } from '../../store/modalSlice';
 import styles from './imageGallery.module.scss';
 
 const ImageGallery = ({ gallery, onRemove }) => {
   const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.user.value);
 
   const viewArt = (imageData) => {
     dispatch(openModal(imageData));
@@ -15,7 +15,6 @@ const ImageGallery = ({ gallery, onRemove }) => {
 
   return (
     <>
-      <h2>Gallery</h2>
       {
         !gallery.length ? 'You have not created any drawings yet.' : ''
       }
@@ -28,12 +27,36 @@ const ImageGallery = ({ gallery, onRemove }) => {
                 <button className={styles.actionButton} type="button" onClick={() => viewArt(doc.data().imageData)}>
                   <img src="./icons/focus.svg" alt="View" />
                 </button>
-                <Link to={`editor/${doc.id}`} className={styles.actionButton}>
-                  <img src="./icons/edit.svg" alt="Edit" />
-                </Link>
-                <button className={styles.actionButton} type="button" onClick={() => onRemove(doc.id)}>
-                  <img src="./icons/delete.svg" alt="Delete" />
-                </button>
+                {
+                  doc.data().uid === user.uid
+                    ? (
+                      <>
+                        <Link to={`editor/${doc.id}`} className={styles.actionButton}>
+                          <img src="./icons/edit.svg" alt="Edit" />
+                        </Link>
+                        <button className={styles.actionButton} type="button" onClick={() => onRemove(doc.id)}>
+                          <img src="./icons/delete.svg" alt="Delete" />
+                        </button>
+                      </>
+                    )
+                    : ''
+                }
+                <div className={styles.aboutArt}>
+                  <p>
+                    Author:
+                    {
+                      doc.data().uid === user.uid
+                        ? ' You'
+                        : ` ${doc.data().email}`
+                    }
+                  </p>
+                  <p>
+                    Created:
+                    {
+                      ` ${new Date(doc.data().created.seconds * 1000).toLocaleString()}`
+                    }
+                  </p>
+                </div>
               </div>
             </div>
           ))
@@ -44,13 +67,13 @@ const ImageGallery = ({ gallery, onRemove }) => {
 };
 
 ImageGallery.propTypes = {
-  gallery: PropTypes.arrayOf,
+  gallery: PropTypes.arrayOf(PropTypes.object),
   onRemove: PropTypes.func
 };
 
 ImageGallery.defaultProps = {
   gallery: [],
-  onRemove: () => {}
+  onRemove: null
 };
 
 export default ImageGallery;
