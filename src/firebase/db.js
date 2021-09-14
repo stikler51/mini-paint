@@ -1,5 +1,4 @@
 import {
-  getFirestore,
   collection,
   query,
   doc,
@@ -10,11 +9,9 @@ import {
   getDoc,
   where
 } from 'firebase/firestore';
+import { db } from './firebase';
 import { startLoading, stopLoading } from '../store/loadingSlice';
-
 import store from '../store/store';
-
-export const db = getFirestore();
 
 const q = query(collection(db, 'art'));
 
@@ -70,4 +67,15 @@ export const getOneArt = async (id) => {
   const docSnap = await getDoc(docRef);
   store.dispatch(stopLoading());
   return docSnap;
+};
+
+export const saveUser = async (uid, email) => {
+  // store.dispatch(startLoading());
+  const userRef = collection(db, 'users');
+  await addDoc(userRef, {
+    uid,
+    email,
+    created: new Date()
+  });
+  // store.dispatch(stopLoading());
 };

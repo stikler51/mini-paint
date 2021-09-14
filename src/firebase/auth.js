@@ -1,18 +1,16 @@
 import {
-  getAuth,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signOut,
   onAuthStateChanged
 } from 'firebase/auth';
-import firebaseApp from './firebase';
+import { auth } from './firebase';
 import store from '../store/store';
 import { login, logout, setError } from '../store/userSlice';
 import { startLoading, stopLoading } from '../store/loadingSlice';
+import { saveUser } from './db';
 
-firebaseApp();
-
-export const auth = getAuth();
+// firebaseApp();
 
 // Changing redux user state on every login/logout event
 onAuthStateChanged(auth, (user) => {
@@ -55,8 +53,15 @@ export const authorizeUser = (email, password) => {
 export const registerUser = (email, password) => {
   store.dispatch(startLoading());
   createUserWithEmailAndPassword(auth, email, password)
-    .then(() => {
+    .then((userCredential) => {
+      // console.log(userCredential.user.uid, userCredential.user.email);
+      // console.log(email);
+      // addUserDb(userCredential.user.uid, userCredential.user.email);
       sessionStorage.setItem('mini-paint-loggedIn', true);
+      return userCredential.user.uid;
+    }).then((uid) => {
+      console.log(uid);
+      saveUser(uid, email);
     })
     .catch((error) => {
       store.dispatch(stopLoading());
