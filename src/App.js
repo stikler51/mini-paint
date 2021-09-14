@@ -14,6 +14,7 @@ import { EditorRoute } from './pages/editor';
 import store from './store/store';
 import LoadingIndicator from './components/layout/loader/loader';
 import Modal from './components/layout/modal/modal';
+import Gallery from './pages/gallery';
 
 function App() {
   return (
@@ -28,6 +29,9 @@ function App() {
               <UserRoute path="/user" />
               <EditorRoute path="/editor/:artId" />
               <EditorRoute path="/editor" />
+              <Route path="/gallery">
+                <Gallery />
+              </Route>
               <Route exact path="/">
                 <Home />
               </Route>
