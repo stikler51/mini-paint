@@ -1,5 +1,3 @@
-// import { getFirestore, collection, getDocs } from 'firebase/firestore';
-// import { QuerySnapshot } from '@firebase/firestore';
 import {
   getFirestore,
   collection,
@@ -13,7 +11,6 @@ import {
   where
 } from 'firebase/firestore';
 import { startLoading, stopLoading } from '../store/loadingSlice';
-// import { createNewArt } from '../store/artSlice';
 
 import store from '../store/store';
 
@@ -22,11 +19,10 @@ export const db = getFirestore();
 const q = query(collection(db, 'art'));
 
 export const getAllArts = async () => {
-  const querySnapshot = await getDocs(q);
-  console.log(querySnapshot);
-  querySnapshot.forEach((art) => {
-    console.log(doc.art, ' => ', art.data());
-  });
+  store.dispatch(startLoading());
+  const allArts = await getDocs(q);
+  store.dispatch(stopLoading());
+  return allArts.docs;
 };
 
 export const getAllArtsByUser = async (uid) => {
@@ -38,10 +34,14 @@ export const getAllArtsByUser = async (uid) => {
 
 export const saveArt = async (imageData) => {
   store.dispatch(startLoading());
-  const { uid } = store.getState().user.value.user;
+  const { uid, email } = store.getState().user.value.user;
   const artRef = collection(db, 'art');
-  const art = await addDoc(artRef, { uid, imageData });
-  // store.dispatch(createNewArt(art.id));
+  const art = await addDoc(artRef, {
+    uid,
+    email,
+    imageData,
+    created: new Date()
+  });
   store.dispatch(stopLoading());
   return art.id;
 };
@@ -50,9 +50,9 @@ export const updateArt = async (imageData, id) => {
   store.dispatch(startLoading());
   const artRef = doc(db, 'art', id);
 
-  // Set the "capital" field of the city 'DC'
   await updateDoc(artRef, {
-    imageData
+    imageData,
+    updated: new Date()
   });
 
   store.dispatch(stopLoading());
