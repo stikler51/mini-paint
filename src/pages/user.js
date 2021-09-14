@@ -1,12 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Route, Redirect } from 'react-router';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import ImageGallery from '../components/imageGallery/imageGallery';
+import { getAllArtsByUser, deleteArt } from '../firebase/db';
 
 const User = () => {
-  // const [gallery, setGallery] = useState([]);
+  const [gallery, setGallery] = useState([]);
   const { user } = useSelector((state) => state.user.value);
+
+  useEffect(() => {
+    async function fetchArts() {
+      const arts = await getAllArtsByUser(user.uid);
+      return arts;
+    }
+
+    fetchArts().then((data) => setGallery(data));
+  }, []);
+
+  const removeArt = (id) => {
+    deleteArt(id);
+    const gal = gallery.filter((image) => image.id !== id);
+    setGallery(gal);
+  };
 
   return (
     <>
@@ -25,7 +41,7 @@ const User = () => {
           </>
         ) : ''
       }
-      <ImageGallery />
+      <ImageGallery gallery={gallery} onRemove={(id) => removeArt(id)} />
     </>
   );
 };
