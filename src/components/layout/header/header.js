@@ -17,7 +17,9 @@ const Header = () => {
             <div>
               <span>
                 Hello,&nbsp;
-                {user.email}
+                <NavLink to="/user">
+                  {user.email}
+                </NavLink>
                 !&nbsp;
               </span>
               <button className="btn btn-danger" type="button" onClick={signOutUser}>Log Out</button>
