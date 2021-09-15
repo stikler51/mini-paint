@@ -20,8 +20,8 @@ function App() {
   return (
     <Provider store={store}>
       <Router>
-        <div>
-          <Header />
+        <Header />
+        <main className={store.getState().theme.value}>
           <div className="container">
             <Switch>
               <SignInRoute path="/signin" />
@@ -37,7 +37,7 @@ function App() {
               </Route>
             </Switch>
           </div>
-        </div>
+        </main>
         <LoadingIndicator />
         <Modal />
       </Router>
