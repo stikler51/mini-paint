@@ -6,9 +6,10 @@ import styles from './header.module.scss';
 
 const Header = () => {
   const { loggedIn, user } = useSelector((state) => state.user.value);
+  const theme = useSelector((state) => state.theme.value);
   return (
-    <header className={`${styles.header}`}>
-      <div className={`container ${styles.header_wrapper}`}>
+    <header className={`${styles[theme]}`}>
+      <div className={`container ${styles.wrapper}`}>
         <NavLink to="/">
           <img className={styles.logo} src="/mini-paint-logo.png" alt="Logo" />
         </NavLink>

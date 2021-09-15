@@ -8,6 +8,7 @@ import styles from './imageGallery.module.scss';
 const ImageGallery = ({ gallery, onRemove }) => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user.value);
+  const theme = useSelector((state) => state.theme.value);
 
   const viewArt = (imageData) => {
     dispatch(openModal(imageData));
@@ -18,7 +19,7 @@ const ImageGallery = ({ gallery, onRemove }) => {
       {
         !gallery.length ? 'There is no any drawings yet.' : ''
       }
-      <div className={styles.gallery}>
+      <div className={styles[theme]}>
         {
           gallery.map((doc) => (
             <div key={doc.id} className={styles.artWrapper}>

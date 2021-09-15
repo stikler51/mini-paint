@@ -4,6 +4,7 @@ import loadingReducer from './loadingSlice';
 import toolReducer from './toolSlice';
 import artReducer from './artSlice';
 import modalReducer from './modalSlice';
+import themeReducer from './themeSlice';
 
 export default configureStore({
   reducer: {
@@ -11,6 +12,7 @@ export default configureStore({
     loading: loadingReducer,
     tool: toolReducer,
     art: artReducer,
-    modal: modalReducer
+    modal: modalReducer,
+    theme: themeReducer
   }
 });

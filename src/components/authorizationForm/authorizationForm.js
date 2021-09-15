@@ -12,9 +12,10 @@ const AuthorizationForm = ({ cb, action }) => {
   const [password, setPassword] = useState('');
   const { pathname } = useLocation();
   const user = useSelector((state) => state.user.value);
+  const theme = useSelector((state) => state.theme.value);
 
   return (
-    <div className={styles.formWrapper}>
+    <div className={styles[theme]}>
       <div className={styles.authorizationForm}>
         <div className="mb-2">
           <input

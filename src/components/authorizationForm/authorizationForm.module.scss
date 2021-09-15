@@ -1,28 +1,63 @@
-.authorizationForm {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    max-width: 400px;
-    width: 100%;
-    padding: 25px 30px;
-    border-radius: 8px;
-    box-shadow: 0px 2px 15px 0px rgba(34, 60, 80, 0.04);
-
-    & > * {
-        width: 100%;
-    }
-}
-
-.formWrapper {
+@import '../../styles/colors.scss';
+.dark {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     min-height: 400px;
+
+    .authorizationForm {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        max-width: 400px;
+        width: 100%;
+        padding: 25px 30px;
+        border-radius: 8px;
+        box-shadow: 0px 2px 15px 0px $darkShadowColor;
+    
+        & > * {
+            width: 100%;
+        }
+    }
+
+    .error {
+        color: red;
+        font-size: 11px;
+    }
+    
 }
 
-.error {
-    color: red;
-    font-size: 11px;
+
+.light {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 400px;
+
+    .authorizationForm {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        max-width: 400px;
+        width: 100%;
+        padding: 25px 30px;
+        border-radius: 8px;
+        box-shadow: 0px 2px 15px 0px rgba(34, 60, 80, 0.04);
+    
+        & > * {
+            width: 100%;
+        }
+    }
+
+    .error {
+        color: red;
+        font-size: 11px;
+    }
+    
 }
+
+

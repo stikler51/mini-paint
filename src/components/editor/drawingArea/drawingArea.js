@@ -34,6 +34,7 @@ const DrawingArea = () => {
   const history = useHistory();
 
   const { activeTool, color, lineWidth } = useSelector((state) => state.tool.value);
+  const theme = useSelector((state) => state.theme.value);
 
   useEffect(() => {
     const canvasCtx = canvas.current.getContext('2d');
@@ -101,7 +102,7 @@ const DrawingArea = () => {
   };
 
   return (
-    <div className={styles.drawingArea}>
+    <div className={styles[theme]}>
       <canvas
         ref={canvas}
         id="canvas"

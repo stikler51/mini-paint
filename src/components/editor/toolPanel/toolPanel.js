@@ -14,6 +14,7 @@ const ToolPanel = () => {
   const [openWidthButton, setOpenWidthButton] = useState(false);
   const wrapperRef = useRef(null);
   const { activeTool, color, lineWidth } = useSelector((state) => state.tool.value);
+  const theme = useSelector((state) => state.theme.value);
   const dispatch = useDispatch();
 
   function useOutsideClick(ref) {
@@ -33,7 +34,7 @@ const ToolPanel = () => {
   useOutsideClick(wrapperRef);
 
   return (
-    <div className={styles.toolPanelWrapper}>
+    <div className={styles[theme]}>
       {tools.map((tool) => (
         <button
           type="button"
