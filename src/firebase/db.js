@@ -29,6 +29,13 @@ export const getAllArtsByUser = async (uid) => {
   return usersArts.docs;
 };
 
+export const getAllArtsByUserEmail = async (email) => {
+  store.dispatch(startLoading());
+  const usersArts = await getDocs(query(collection(db, 'art'), where('email', '==', email)));
+  store.dispatch(stopLoading());
+  return usersArts.docs;
+};
+
 export const saveArt = async (imageData) => {
   store.dispatch(startLoading());
   const { uid, email } = store.getState().user.value.user;
@@ -70,12 +77,17 @@ export const getOneArt = async (id) => {
 };
 
 export const saveUser = async (uid, email) => {
-  // store.dispatch(startLoading());
   const userRef = collection(db, 'users');
   await addDoc(userRef, {
     uid,
     email,
     created: new Date()
   });
-  // store.dispatch(stopLoading());
+};
+
+export const getAllUsers = async () => {
+  store.dispatch(startLoading());
+  const allUsers = await getDocs(query(collection(db, 'users')));
+  store.dispatch(stopLoading());
+  return allUsers.docs;
 };
