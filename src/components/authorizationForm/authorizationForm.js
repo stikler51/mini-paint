@@ -59,22 +59,6 @@ const AuthorizationForm = ({ cb, action }) => {
         }
 
       </div>
-
-      {/* <div>
-        <input type="submit" onClick={() => registerUser(email, password)} value="Register" />
-
-        <button type="button" onClick={() => console.log(auth.currentUser)}>
-          Current user
-        </button>
-
-        <button type="button" onClick={signOutUser}>
-          Sign Out
-        </button>
-
-        <button type="button" onClick={() => console.log(user)}>
-          Show state
-        </button>
-      </div> */}
     </div>
   );
 };
