@@ -16,7 +16,7 @@ const ImageGallery = ({ gallery, onRemove }) => {
   return (
     <>
       {
-        !gallery.length ? 'You have not created any drawings yet.' : ''
+        !gallery.length ? 'There is no any drawings yet.' : ''
       }
       <div className={styles.gallery}>
         {
@@ -28,7 +28,7 @@ const ImageGallery = ({ gallery, onRemove }) => {
                   <img src="./icons/focus.svg" alt="View" />
                 </button>
                 {
-                  doc.data().uid === user.uid
+                  user && doc.data().uid === user.uid
                     ? (
                       <>
                         <Link to={`editor/${doc.id}`} className={styles.actionButton}>
@@ -45,7 +45,7 @@ const ImageGallery = ({ gallery, onRemove }) => {
                   <p>
                     Author:
                     {
-                      doc.data().uid === user.uid
+                      user && doc.data().uid === user.uid
                         ? ' You'
                         : ` ${doc.data().email}`
                     }
