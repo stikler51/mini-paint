@@ -1,7 +1,8 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { enableTool, setColor, setLineWidth } from '../../../store/toolSlice';
 import styles from './toolPanel.module.scss';
+import useClickOutside from '../../../hooks/useClickOutside';
 
 const tools = [
   { value: 'pen', icon: '/icons/pen.svg' },
@@ -17,21 +18,7 @@ const ToolPanel = () => {
   const theme = useSelector((state) => state.theme.value);
   const dispatch = useDispatch();
 
-  function useOutsideClick(ref) {
-    useEffect(() => {
-      function handleClickOutside(event) {
-        if (ref.current && !ref.current.contains(event.target)) {
-          setOpenWidthButton(false);
-        }
-      }
-      document.addEventListener('mousedown', handleClickOutside);
-      return () => {
-        document.removeEventListener('mousedown', handleClickOutside);
-      };
-    }, [ref]);
-  }
-
-  useOutsideClick(wrapperRef);
+  useClickOutside(wrapperRef, setOpenWidthButton(false));
 
   return (
     <div className={styles[theme]}>
