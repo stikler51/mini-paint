@@ -5,6 +5,7 @@
     background: $lightBg;
     color: $lightTextColor;
     padding: 15px 0;
+    z-index: 1;
     .wrapper {
         display: flex;
         justify-content: space-between;

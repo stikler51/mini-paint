@@ -31,7 +31,7 @@ const Modal = () => {
     );
   }
 
-  return '';
+  return <></>;
 };
 
 export default Modal;

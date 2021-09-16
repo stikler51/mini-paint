@@ -13,7 +13,7 @@ const Gallery = () => {
       return arts;
     }
 
-    fetchArts().then((data) => setGallery(data));
+    fetchArts().then((data: any) => setGallery(data));
   }, []);
 
   useEffect(() => {
@@ -27,15 +27,14 @@ const Gallery = () => {
       return arts;
     }
 
-    fetchArts().then((data) => {
-      console.log(data);
+    fetchArts().then((data: any) => {
       setGallery(data);
     });
   }, [filterValue]);
 
-  const removeArt = (id) => {
+  const removeArt = (id: string) => {
     deleteArt(id);
-    const gal = gallery.filter((image) => image.id !== id);
+    const gal = gallery.filter((image: { id: any }) => image.id !== id);
     setGallery(gal);
   };
 

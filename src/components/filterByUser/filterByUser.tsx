@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import { getAllUsers } from '../../firebase/db';
 
-const FilterByUser = ({ onFilter }) => {
-  const [users, setUsers] = useState([]);
+type filteProps = {
+  onFilter: (value: string) => void;
+}
+
+const FilterByUser = ({ onFilter }: filteProps) => {
+  const [users, setUsers] = useState<any>([]);
   useEffect(() => {
     async function fetchUsers() {
       const fetchedUsers = await getAllUsers();
@@ -15,8 +18,8 @@ const FilterByUser = ({ onFilter }) => {
     });
   }, []);
 
-  const changeHandler = (e) => {
-    onFilter(e.target.value);
+  const changeHandler = (data: string) => {
+    onFilter(data);
   };
 
   return (
@@ -26,25 +29,17 @@ const FilterByUser = ({ onFilter }) => {
         list="users"
         placeholder="Start typing..."
         className="form-control"
-        onChange={(e) => changeHandler(e)}
+        onChange={(e) => changeHandler(e.currentTarget.value)}
       />
       <datalist id="users">
         {
-          users.map((user) => (
+          users.map((user: any) => (
             <option value={user.data().email}>{user.data().email}</option>
           ))
         }
       </datalist>
     </div>
   );
-};
-
-FilterByUser.propTypes = {
-  onFilter: PropTypes.func
-};
-
-FilterByUser.defaultProps = {
-  onFilter: null
 };
 
 export default FilterByUser;

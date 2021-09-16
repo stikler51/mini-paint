@@ -13,13 +13,15 @@ export const userSlice = createSlice({
     login: (state, action) => {
       state.value = {
         user: action.payload,
-        loggedIn: true
+        loggedIn: true,
+        errors: state.value.errors
       };
     },
     logout: (state) => {
       state.value = {
         user: null,
-        loggedIn: false
+        loggedIn: false,
+        errors: state.value.errors
       };
     },
     setError: (state, action) => {

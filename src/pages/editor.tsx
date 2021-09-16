@@ -1,7 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../store/hooks';
 import EditorWrapper from '../components/editor/editorWrapper/editorWrapper';
 
 const Editor = () => (
@@ -11,9 +10,13 @@ const Editor = () => (
   </>
 );
 
-export const EditorRoute = ({ path }) => {
-  const { loggedIn } = useSelector((state) => state.user.value);
-  const loggedInSessionStorage = JSON.parse(sessionStorage.getItem('mini-paint-loggedIn'));
+type routeProps = {
+  path: string
+}
+
+export const EditorRoute = ({ path }: routeProps) => {
+  const { loggedIn } = useAppSelector((state) => state.user.value);
+  const loggedInSessionStorage: boolean = JSON.parse(sessionStorage.getItem('mini-paint-loggedIn') || '');
   return (
     <Route path={`${path}`}>
       {loggedIn || loggedInSessionStorage
@@ -21,14 +24,6 @@ export const EditorRoute = ({ path }) => {
         : <Redirect to="/signin" />}
     </Route>
   );
-};
-
-EditorRoute.propTypes = {
-  path: PropTypes.string
-};
-
-EditorRoute.defaultProps = {
-  path: '/editor'
 };
 
 export default Editor;

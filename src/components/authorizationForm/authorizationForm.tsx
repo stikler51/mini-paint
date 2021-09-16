@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
 import {
   Link,
   useLocation
 } from 'react-router-dom';
+import { useAppSelector } from '../../store/hooks';
 import styles from './authorizationForm.module.scss';
 
-const AuthorizationForm = ({ cb, action }) => {
+const AuthorizationForm: React.FC<{
+  cb: (mail: string, pass: string) => void,
+  action: string
+}> = ({ cb, action }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { pathname } = useLocation();
-  const user = useSelector((state) => state.user.value);
-  const theme = useSelector((state) => state.theme.value);
+  const user = useAppSelector((state) => state.user.value);
+  const theme = useAppSelector((state) => state.theme.value);
 
   return (
     <div className={styles[theme]}>
@@ -23,7 +25,7 @@ const AuthorizationForm = ({ cb, action }) => {
             placeholder="E-mail"
             className="form-control"
             value={email}
-            onInput={(e) => setEmail(e.target.value)}
+            onInput={(e) => setEmail(e.currentTarget.value)}
             required
           />
         </div>
@@ -33,7 +35,7 @@ const AuthorizationForm = ({ cb, action }) => {
             placeholder="Password"
             className="form-control"
             value={password}
-            onInput={(e) => setPassword(e.target.value)}
+            onInput={(e) => setPassword(e.currentTarget.value)}
             required
           />
         </div>
@@ -63,14 +65,14 @@ const AuthorizationForm = ({ cb, action }) => {
   );
 };
 
-AuthorizationForm.propTypes = {
-  action: PropTypes.string,
-  cb: PropTypes.func
-};
+// AuthorizationForm.propTypes = {
+//   action: PropTypes.string,
+//   cb: PropTypes.func
+// };
 
-AuthorizationForm.defaultProps = {
-  action: 'Sign In',
-  cb: null
-};
+// AuthorizationForm.defaultProps = {
+//   action: 'Sign In',
+//   cb: null
+// };
 
 export default AuthorizationForm;

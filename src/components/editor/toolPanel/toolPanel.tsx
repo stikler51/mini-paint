@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useAppSelector, useAppDispatch } from '../../../store/hooks';
 import { enableTool, setColor, setLineWidth } from '../../../store/toolSlice';
 import styles from './toolPanel.module.scss';
 import useClickOutside from '../../../hooks/useClickOutside';
@@ -12,13 +12,21 @@ const tools = [
 ];
 
 const ToolPanel = () => {
-  const [openWidthButton, setOpenWidthButton] = useState(false);
-  const wrapperRef = useRef(null);
-  const { activeTool, color, lineWidth } = useSelector((state) => state.tool.value);
-  const theme = useSelector((state) => state.theme.value);
-  const dispatch = useDispatch();
+  const [openWidthButton, setOpenWidthButton] = useState<boolean | null>(false);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const { activeTool, color, lineWidth } = useAppSelector<{
+    activeTool: string,
+    color: string,
+    lineWidth: number
+  }>((state) => state.tool.value);
+  const theme = useAppSelector<string>((state) => state.theme.value);
+  const dispatch = useAppDispatch();
 
-  useClickOutside(wrapperRef, setOpenWidthButton(false));
+  const clickOutsideCb = () => {
+    setOpenWidthButton(false);
+  };
+
+  useClickOutside(wrapperRef, clickOutsideCb);
 
   return (
     <div className={styles[theme]}>

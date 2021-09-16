@@ -1,16 +1,30 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import { openModal } from '../../store/modalSlice';
 import styles from './imageGallery.module.scss';
 
-const ImageGallery = ({ gallery, onRemove }) => {
-  const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.user.value);
-  const theme = useSelector((state) => state.theme.value);
+type galleryProps = {
+  gallery: object[],
+  onRemove: (id: string) => void
+}
 
-  const viewArt = (imageData) => {
+type userType = {
+  email: string,
+  uid: string,
+  accessToken: string
+}
+
+const ImageGallery = ({ gallery, onRemove }: galleryProps) => {
+  const dispatch = useAppDispatch();
+  const { user } = useAppSelector<{
+    user: userType | null,
+    loggedIn: boolean,
+    errors: null
+  }>((state) => state.user.value);
+  const theme = useAppSelector<string>((state) => state.theme.value);
+
+  const viewArt = (imageData: ImageData) => {
     dispatch(openModal(imageData));
   };
 
@@ -21,7 +35,7 @@ const ImageGallery = ({ gallery, onRemove }) => {
       }
       <div className={styles[theme]}>
         {
-          gallery.map((doc) => (
+          gallery.map((doc: any) => (
             <div key={doc.id} className={styles.artWrapper}>
               <img src={doc.data().imageData} alt={doc.id} />
               <div className={styles.actionsLayer}>
@@ -65,16 +79,6 @@ const ImageGallery = ({ gallery, onRemove }) => {
       </div>
     </>
   );
-};
-
-ImageGallery.propTypes = {
-  gallery: PropTypes.arrayOf(PropTypes.object),
-  onRemove: PropTypes.func
-};
-
-ImageGallery.defaultProps = {
-  gallery: [],
-  onRemove: null
 };
 
 export default ImageGallery;

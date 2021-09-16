@@ -1,7 +1,6 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router';
-import { useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
+import { useAppSelector } from '../store/hooks';
 import AuthorizationForm from '../components/authorizationForm/authorizationForm';
 import {
   registerUser
@@ -14,21 +13,17 @@ const Register = () => (
   </>
 );
 
-export const RegisterRoute = ({ path }) => {
-  const { loggedIn } = useSelector((state) => state.user.value);
+type routeProps = {
+  path: string
+}
+
+export const RegisterRoute = ({ path }: routeProps) => {
+  const { loggedIn } = useAppSelector((state) => state.user.value);
   return (
     <Route path={path}>
       {loggedIn ? <Redirect to="/user" /> : <Register />}
     </Route>
   );
-};
-
-RegisterRoute.propTypes = {
-  path: PropTypes.string
-};
-
-RegisterRoute.defaultProps = {
-  path: '/signin'
 };
 
 export default Register;

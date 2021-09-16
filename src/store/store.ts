@@ -6,7 +6,7 @@ import artReducer from './artSlice';
 import modalReducer from './modalSlice';
 import themeReducer from './themeSlice';
 
-export default configureStore({
+const store = configureStore({
   reducer: {
     user: userReduser,
     loading: loadingReducer,
@@ -16,3 +16,9 @@ export default configureStore({
     theme: themeReducer
   }
 });
+
+export type RootState = ReturnType<typeof store.getState>
+
+export type AppDispatch = typeof store.dispatch
+
+export default store;

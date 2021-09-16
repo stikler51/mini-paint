@@ -11,6 +11,7 @@
     "@types/node": "^16.9.1",
     "@types/react": "^17.0.21",
     "@types/react-dom": "^17.0.9",
+    "@types/react-redux": "^7.1.18",
     "bootstrap": "^5.1.0",
     "firebase": "^9.0.1",
     "husky": "^7.0.2",
@@ -54,6 +55,9 @@
     ]
   },
   "devDependencies": {
+    "@types/react-router-dom": "^5.1.9",
+    "@typescript-eslint/eslint-plugin": "^4.31.1",
+    "@typescript-eslint/parser": "^4.31.1",
     "eslint": "^7.32.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^8.3.0",
@@ -62,7 +66,8 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.25.1",
     "eslint-plugin-react-hooks": "^4.2.0",
-    "prettier": "^2.3.2"
+    "prettier": "^2.3.2",
+    "webpack-cli": "^4.8.0"
   },
   "husky": {
     "hooks": {

@@ -1,10 +1,10 @@
 import React from 'react';
 import Loader from 'react-loader-spinner';
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../../../store/hooks';
 import styles from './loader.module.scss';
 
 const LoadingIndicator = () => {
-  const isLoading = useSelector((state) => state.loading.value);
+  const isLoading = useAppSelector<boolean>((state) => state.loading.value);
   if (isLoading) {
     return (
       <div className={styles.loader}>
@@ -18,7 +18,7 @@ const LoadingIndicator = () => {
       </div>
     );
   }
-  return '';
+  return <></>;
 };
 
 export default LoadingIndicator;

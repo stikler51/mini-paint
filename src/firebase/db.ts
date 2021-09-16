@@ -22,23 +22,23 @@ export const getAllArts = async () => {
   return allArts.docs;
 };
 
-export const getAllArtsByUser = async (uid) => {
+export const getAllArtsByUser = async (uid: string) => {
   store.dispatch(startLoading());
   const usersArts = await getDocs(query(collection(db, 'art'), where('uid', '==', uid)));
   store.dispatch(stopLoading());
   return usersArts.docs;
 };
 
-export const getAllArtsByUserEmail = async (email) => {
+export const getAllArtsByUserEmail = async (email: string) => {
   store.dispatch(startLoading());
   const usersArts = await getDocs(query(collection(db, 'art'), where('email', '==', email)));
   store.dispatch(stopLoading());
   return usersArts.docs;
 };
 
-export const saveArt = async (imageData) => {
+export const saveArt = async (imageData: string) => {
   store.dispatch(startLoading());
-  const { uid, email } = store.getState().user.value.user;
+  const { uid, email }: any = store.getState().user.value.user;
   const artRef = collection(db, 'art');
   const art = await addDoc(artRef, {
     uid,
@@ -50,7 +50,7 @@ export const saveArt = async (imageData) => {
   return art.id;
 };
 
-export const updateArt = async (imageData, id) => {
+export const updateArt = async (imageData: string, id: string) => {
   store.dispatch(startLoading());
   const artRef = doc(db, 'art', id);
 
@@ -62,13 +62,13 @@ export const updateArt = async (imageData, id) => {
   store.dispatch(stopLoading());
 };
 
-export const deleteArt = async (id) => {
+export const deleteArt = async (id: string) => {
   store.dispatch(startLoading());
   await deleteDoc(doc(db, 'art', id));
   store.dispatch(stopLoading());
 };
 
-export const getOneArt = async (id) => {
+export const getOneArt = async (id: string) => {
   store.dispatch(startLoading());
   const docRef = doc(db, 'art', id);
   const docSnap = await getDoc(docRef);
@@ -76,7 +76,7 @@ export const getOneArt = async (id) => {
   return docSnap;
 };
 
-export const saveUser = async (uid, email) => {
+export const saveUser = async (uid: string, email: string) => {
   const userRef = collection(db, 'users');
   await addDoc(userRef, {
     uid,

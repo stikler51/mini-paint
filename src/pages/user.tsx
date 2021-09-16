@@ -1,26 +1,40 @@
 import React, { useEffect, useState } from 'react';
 import { Route, Redirect } from 'react-router';
-import { useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
+import { useAppSelector } from '../store/hooks';
 import ImageGallery from '../components/imageGallery/imageGallery';
 import { getAllArtsByUser, deleteArt } from '../firebase/db';
 
+type UserType = {
+  email: string,
+  uid: string,
+  accessToken: string
+}
+
+type UserStateType = {
+  loggedIn: boolean,
+  user: UserType | null
+}
+
 const User = () => {
   const [gallery, setGallery] = useState([]);
-  const { user } = useSelector((state) => state.user.value);
+  const { user } = useAppSelector<UserStateType>((state) => state.user.value);
 
   useEffect(() => {
     async function fetchArts() {
-      const arts = await getAllArtsByUser(user.uid);
-      return arts;
+      if (user) {
+        const arts = await getAllArtsByUser(user.uid);
+        return arts;
+      }
+
+      return [];
     }
 
-    fetchArts().then((data) => setGallery(data));
+    fetchArts().then((data: any) => setGallery(data));
   }, []);
 
-  const removeArt = (id) => {
+  const removeArt = (id: string) => {
     deleteArt(id);
-    const gal = gallery.filter((image) => image.id !== id);
+    const gal = gallery.filter((image: any) => image.id !== id);
     setGallery(gal);
   };
 
@@ -46,21 +60,17 @@ const User = () => {
   );
 };
 
-export const UserRoute = ({ path }) => {
-  const { loggedIn } = useSelector((state) => state.user.value);
+type routeProps = {
+  path: string
+}
+
+export const UserRoute = ({ path }: routeProps) => {
+  const { loggedIn } = useAppSelector((state) => state.user.value);
   return (
     <Route path={path}>
       {loggedIn ? <User /> : <Redirect to="/signin" />}
     </Route>
   );
-};
-
-UserRoute.propTypes = {
-  path: PropTypes.string
-};
-
-UserRoute.defaultProps = {
-  path: '/user'
 };
 
 export default User;

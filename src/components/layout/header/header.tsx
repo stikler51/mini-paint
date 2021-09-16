@@ -1,12 +1,25 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../../../store/hooks';
 import { signOutUser } from '../../../firebase/auth';
 import styles from './header.module.scss';
 
+type UserType = {
+  email: string,
+  uid: string,
+  accessToken: string
+}
+
+type UserStateType = {
+  loggedIn: boolean,
+  user: UserType | null
+}
+
 const Header = () => {
-  const { loggedIn, user } = useSelector((state) => state.user.value);
-  const theme = useSelector((state) => state.theme.value);
+  const { loggedIn, user } = useAppSelector<UserStateType>(
+    (state) => state.user.value
+  );
+  const theme = useAppSelector((state) => state.theme.value);
   return (
     <header className={`${styles[theme]}`}>
       <div className={`container ${styles.wrapper}`}>
@@ -19,7 +32,7 @@ const Header = () => {
               <span>
                 Hello,&nbsp;
                 <NavLink to="/user">
-                  {user.email}
+                  {user?.email}
                 </NavLink>
                 !&nbsp;
               </span>
