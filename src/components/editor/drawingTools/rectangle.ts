@@ -37,7 +37,6 @@ export default {
     startDrawingPosition,
     canvasData
   }: onMouseMoveType): void => {
-    console.log('yo move');
     if (isPainting) {
       const rectangle = {
         width: e.pageX - canvasOffset.left - startDrawingPosition.left,
@@ -46,17 +45,22 @@ export default {
       ctx.clearRect(0, 0, 760, 480);
       ctx.putImageData(canvasData, 0, 0);
       if (e.shiftKey) {
+        let rectangleHeight;
+
+        if (rectangle.height < 0 && rectangle.width > 0) { // 4th quarter (x; -y)
+          rectangleHeight = -rectangle.width;
+        } else if (rectangle.height < 0 && rectangle.width < 0) { // 3rd quarter (-x; -y)
+          rectangleHeight = rectangle.width;
+        } else if (rectangle.height > 0 && rectangle.width < 0) { // 2nd quarter (-x; y)
+          rectangleHeight = -rectangle.width;
+        } else { // 1st quarter (x; y)
+          rectangleHeight = rectangle.width;
+        }
         ctx.strokeRect(
           startDrawingPosition.left,
           startDrawingPosition.top,
           rectangle.width,
-          rectangle.height < 0 && rectangle.width > 0 // 4th quarter (x; -y)
-            ? -rectangle.width
-            : rectangle.height < 0 && rectangle.width < 0 // 3rd quarter (-x; -y)
-              ? rectangle.width
-              : rectangle.height > 0 && rectangle.width < 0 // 2nd quarter (-x; y)
-                ? -rectangle.width
-                : rectangle.width // 1st quarter (x; y)
+          rectangleHeight
         );
       } else {
         ctx.strokeRect(
