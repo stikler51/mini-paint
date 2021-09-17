@@ -34,7 +34,7 @@ const FilterByUser = ({ onFilter }: filteProps) => {
       <datalist id="users">
         {
           users.map((user: any) => (
-            <option value={user.data().email}>{user.data().email}</option>
+            <option key={user.data().email} value={user.data().email}>{user.data().email}</option>
           ))
         }
       </datalist>
