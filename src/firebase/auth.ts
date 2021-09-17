@@ -10,12 +10,9 @@ import { login, logout, setError } from '../store/userSlice';
 import { startLoading, stopLoading } from '../store/loadingSlice';
 import { saveUser } from './db';
 
-// firebaseApp();
-
 // Changing redux user state on every login/logout event
 onAuthStateChanged(auth, (user) => {
   if (user) {
-    console.log('sign in from listener', user);
     store.dispatch(stopLoading());
     store.dispatch(login({
       uid: user.uid,
@@ -26,15 +23,12 @@ onAuthStateChanged(auth, (user) => {
     // /editor page redirects to /signin page
     sessionStorage.setItem('mini-paint-loggedIn', 'true');
     store.dispatch(setError(null));
-    console.log(store.getState());
     return;
   }
-  console.log('sign out from listener');
   sessionStorage.setItem('mini-paint-loggedIn', 'false');
   store.dispatch(stopLoading());
   store.dispatch(logout());
   store.dispatch(setError(null));
-  console.log(store.getState());
 });
 
 export const authorizeUser = (email: string, password: string): void => {
@@ -56,7 +50,6 @@ export const registerUser = (email: string, password: string): string | void => 
       sessionStorage.setItem('mini-paint-loggedIn', 'true');
       return userCredential.user.uid;
     }).then((uid) => {
-      console.log(uid);
       saveUser(uid, email);
     })
     .catch((error) => {
@@ -69,9 +62,7 @@ export const signOutUser = () => {
   store.dispatch(startLoading());
   sessionStorage.setItem('mini-paint-loggedIn', 'false');
   signOut(auth).then(() => {
-    console.log('Sign-out successful.');
-  }).catch((error) => {
+  }).catch(() => {
     store.dispatch(stopLoading());
-    console.log(error.message);
   });
 };
