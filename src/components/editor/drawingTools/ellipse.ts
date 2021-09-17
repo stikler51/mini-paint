@@ -44,14 +44,19 @@ export default {
       ctx.putImageData(canvasData, 0, 0);
       ctx.beginPath();
       if (e.shiftKey) {
+        let ellipseHeightRadius;
+
+        if (radiusY < 0 && radiusX > 0) { // 4th quarter (x; -y)
+          ellipseHeightRadius = startDrawingPosition.left - radiusY;
+        } else if (radiusY < 0 && radiusX < 0) { // 3rd quarter (-x; -y)
+          ellipseHeightRadius = startDrawingPosition.left + radiusY;
+        } else if (radiusY > 0 && radiusX < 0) { // 2nd quarter (-x; y)
+          ellipseHeightRadius = startDrawingPosition.left - radiusY;
+        } else { // 1st quarter (x; y)
+          ellipseHeightRadius = startDrawingPosition.left + radiusY;
+        }
         ctx.arc(
-          radiusY < 0 && radiusX > 0 // 4th quarter (x; -y)
-            ? startDrawingPosition.left - radiusY
-            : radiusY < 0 && radiusX < 0 // 3rd quarter (-x; -y)
-              ? startDrawingPosition.left + radiusY
-              : radiusY > 0 && radiusX < 0 // 2nd quarter (-x; y)
-                ? startDrawingPosition.left - radiusY
-                : startDrawingPosition.left + radiusY, // 1st quarter (x; y)
+          ellipseHeightRadius,
           startDrawingPosition.top + radiusY,
           Math.abs(radiusY),
           0,
