@@ -9,6 +9,7 @@ import rectangle from '../drawingTools/rectangle';
 import ellipse from '../drawingTools/ellipse';
 import line from '../drawingTools/line';
 import bucket from '../drawingTools/paintBucket';
+import eraser from '../drawingTools/eraser';
 
 import { saveArt, getOneArt, updateArt } from '../../../firebase/db';
 
@@ -31,7 +32,8 @@ const DrawingArea = () => {
     rectangle,
     ellipse,
     line,
-    bucket
+    bucket,
+    eraser
   };
 
   const { artId } = useParams<{ artId: string }>();
@@ -70,6 +72,12 @@ const DrawingArea = () => {
       });
     }
   }, []);
+
+  useEffect(() => {
+    if (ctx) {
+      ctx.strokeStyle = color;
+    }
+  }, [activeTool]);
 
   useEffect(() => {
     if (ctx) {

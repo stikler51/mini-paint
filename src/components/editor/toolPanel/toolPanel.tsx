@@ -9,7 +9,8 @@ const tools = [
   { value: 'rectangle', icon: '/icons/rectangle.svg' },
   { value: 'ellipse', icon: '/icons/ellipse.svg' },
   { value: 'line', icon: '/icons/line.svg' },
-  { value: 'bucket', icon: '/icons/paint-bucket.svg' }
+  { value: 'bucket', icon: '/icons/paint-bucket.svg' },
+  { value: 'eraser', icon: '/icons/eraser.svg' }
 ];
 
 const ToolPanel = () => {
