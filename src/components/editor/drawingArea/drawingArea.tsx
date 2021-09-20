@@ -8,6 +8,8 @@ import pen from '../drawingTools/pen';
 import rectangle from '../drawingTools/rectangle';
 import ellipse from '../drawingTools/ellipse';
 import line from '../drawingTools/line';
+import bucket from '../drawingTools/paintBucket';
+
 import { saveArt, getOneArt, updateArt } from '../../../firebase/db';
 
 const DrawingArea = () => {
@@ -28,7 +30,8 @@ const DrawingArea = () => {
     pen,
     rectangle,
     ellipse,
-    line
+    line,
+    bucket
   };
 
   const { artId } = useParams<{ artId: string }>();
@@ -44,7 +47,11 @@ const DrawingArea = () => {
   useEffect(() => {
     const canvasCtx = canvas.current?.getContext('2d');
     if (canvasCtx && canvas.current) {
+      canvasCtx.fillStyle = '#FFFFFF';
+      canvasCtx.fillRect(0, 0, 760, 480);
+
       canvasCtx.strokeStyle = color;
+      canvasCtx.fillStyle = color;
       canvasCtx.lineWidth = lineWidth;
 
       if (artId) {
@@ -67,6 +74,7 @@ const DrawingArea = () => {
   useEffect(() => {
     if (ctx) {
       ctx.strokeStyle = color;
+      ctx.fillStyle = color;
     }
   }, [color]);
 

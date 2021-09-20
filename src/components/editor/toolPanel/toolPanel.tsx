@@ -8,7 +8,8 @@ const tools = [
   { value: 'pen', icon: '/icons/pen.svg' },
   { value: 'rectangle', icon: '/icons/rectangle.svg' },
   { value: 'ellipse', icon: '/icons/ellipse.svg' },
-  { value: 'line', icon: '/icons/line.svg' }
+  { value: 'line', icon: '/icons/line.svg' },
+  { value: 'bucket', icon: '/icons/paint-bucket.svg' }
 ];
 
 const ToolPanel = () => {
