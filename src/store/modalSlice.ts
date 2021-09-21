@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+// using for displaying modal windows
 export const modalSlice = createSlice({
   name: 'modal',
   initialState: {

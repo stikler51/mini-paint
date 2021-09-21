@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+// used for keeping information about authorized user and authorization errors
 export const userSlice = createSlice({
   name: 'counter',
   initialState: {

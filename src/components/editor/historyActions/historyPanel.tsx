@@ -7,16 +7,19 @@ const HistoryPanel = () => {
   const { currentPosition, artHistory } = useAppSelector((state) => state.art.value);
   const theme = useAppSelector<string>((state) => state.theme.value);
   const dispatch = useAppDispatch();
+  // maximum history stack size = 20
+  // if need to change, change here and in store/artSlice.tx
+  const maxStackSize = 20;
 
   const onKeysPress = (e: KeyboardEvent) => {
-    if (e.keyCode === 90 && e.ctrlKey) {
+    if (e.keyCode === 90 && e.ctrlKey) { // ctrl + z - undo action
       if (currentPosition > 0) {
         dispatch(prevArtState());
       }
     }
 
-    if (e.keyCode === 89 && e.ctrlKey) {
-      if (currentPosition < 20 && currentPosition < artHistory.length - 1) {
+    if (e.keyCode === 89 && e.ctrlKey) { // ctrl + y - redo actions
+      if (currentPosition < maxStackSize && currentPosition < artHistory.length - 1) {
         dispatch(nextArtState());
       }
     }
@@ -48,7 +51,7 @@ const HistoryPanel = () => {
         className={`${styles.toolButton}`}
         disabled={currentPosition >= artHistory.length - 1}
         onClick={() => {
-          if (currentPosition < 20 && artHistory.length > currentPosition) {
+          if (currentPosition < maxStackSize && artHistory.length > currentPosition) {
             dispatch(nextArtState());
           }
         }}

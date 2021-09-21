@@ -6,13 +6,19 @@ import {
 import { useAppSelector } from '../../store/hooks';
 import styles from './authorizationForm.module.scss';
 
-const AuthorizationForm: React.FC<{
-  cb: (mail: string, pass: string) => void,
+type PropsType = {
+  cb: (mail: string, pass: string) => void, // Fn for authorization or registration
   action: string
-}> = ({ cb, action }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+}
+
+// component used for authorization and registration actions
+const AuthorizationForm = ({ cb, action }: PropsType) => {
+  const [email, setEmail] = useState(''); // input email value
+  const [password, setPassword] = useState(''); // input password value
+
+  // needed for applying right action to form (authorization or registration)
   const { pathname } = useLocation();
+
   const user = useAppSelector((state) => state.user.value);
   const theme = useAppSelector((state) => state.theme.value);
 
@@ -43,7 +49,7 @@ const AuthorizationForm: React.FC<{
           type="submit"
           className="btn btn-primary"
           onClick={(e) => {
-            e.preventDefault();
+            e.preventDefault(); // don't refresh page
             cb(email, password);
           }}
           value={action}
@@ -67,15 +73,5 @@ const AuthorizationForm: React.FC<{
     </div>
   );
 };
-
-// AuthorizationForm.propTypes = {
-//   action: PropTypes.string,
-//   cb: PropTypes.func
-// };
-
-// AuthorizationForm.defaultProps = {
-//   action: 'Sign In',
-//   cb: null
-// };
 
 export default AuthorizationForm;

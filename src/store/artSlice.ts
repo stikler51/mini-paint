@@ -1,5 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+// used for saving art change history (undo/redo actions)
+// artHistory - array of Base64 strings images
 export const artSlice = createSlice({
   name: 'art',
   initialState: {
@@ -19,7 +21,10 @@ export const artSlice = createSlice({
     },
     pushActionInHistory: (state: any, action) => {
       const oldState = [...state.value.artHistory];
-      if (state.value.artHistory.length >= 20) {
+      // maximum history stack size = 20
+      // if need to change, change here and in components/editor/historyActions/historyPanel.tsx
+      const maxStackSize = 20;
+      if (state.value.artHistory.length >= maxStackSize) {
         oldState.shift();
       }
       state.value = {

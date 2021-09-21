@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+// used for displaying loading indicator
 export const loadingSlice = createSlice({
   name: 'loading',
   initialState: {
