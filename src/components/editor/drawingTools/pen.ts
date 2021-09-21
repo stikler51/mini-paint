@@ -1,11 +1,11 @@
-type onMouseDownType = {
+type OnMouseDownType = {
   e: MouseEvent
   ctx: CanvasRenderingContext2D
   canvasOffset: { top: number; left: number }
   setIsPainting: (payload: boolean) => void
 }
 
-type onMouseMoveType = {
+type OnMouseMoveType = {
   e: MouseEvent
   ctx: CanvasRenderingContext2D
   canvasOffset: { top: number; left: number }
@@ -15,13 +15,13 @@ type onMouseMoveType = {
 }
 
 export default {
-  onMouseDown: ({ e, ctx, canvasOffset, setIsPainting }: onMouseDownType): void => {
+  onMouseDown: ({ e, ctx, canvasOffset, setIsPainting }: OnMouseDownType): void => {
     setIsPainting(true)
     ctx.beginPath()
     ctx.moveTo(e.pageX - canvasOffset.left, e.pageY - canvasOffset.top)
   },
 
-  onMouseMove: ({ e, ctx, canvasOffset, isPainting }: onMouseMoveType): void => {
+  onMouseMove: ({ e, ctx, canvasOffset, isPainting }: OnMouseMoveType): void => {
     if (isPainting) {
       ctx.lineTo(e.pageX - canvasOffset.left, e.pageY - canvasOffset.top)
       ctx.stroke()

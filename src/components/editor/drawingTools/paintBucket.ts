@@ -1,11 +1,11 @@
-type onMouseDownType = {
+type OnMouseDownType = {
   e: MouseEvent
   ctx: CanvasRenderingContext2D
   canvasOffset: { top: number; left: number }
   setIsPainting: (payload: boolean) => void
 }
 
-type startPosition = {
+type StartPosition = {
   left: number
   top: number
 }
@@ -30,8 +30,8 @@ const convertHexToRGBA = (hexCode: any) => {
 }
 
 export default {
-  onMouseDown: ({ e, ctx, canvasOffset }: onMouseDownType): startPosition => {
-    const start: startPosition = {
+  onMouseDown: ({ e, ctx, canvasOffset }: OnMouseDownType): StartPosition => {
+    const start: StartPosition = {
       top: e.pageY - canvasOffset.top,
       left: e.pageX - canvasOffset.left,
     }

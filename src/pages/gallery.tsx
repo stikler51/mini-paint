@@ -38,7 +38,7 @@ const Gallery = () => {
       <h1>Gallery page</h1>
       <FilterByUser onFilter={setFilterValue} />
       <ImageGallery gallery={gallery} onRemove={(id) => removeArt(id)} />
-      {!gallery.length ? <p>Check the filter value;</p> : ''}
+      {!gallery.length ? <p>Check the filter value</p> : ''}
     </>
   )
 }
