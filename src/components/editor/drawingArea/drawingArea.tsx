@@ -144,7 +144,8 @@ const DrawingArea = () => {
   const clearCanvas = () => {
     const sure = window.confirm('Are you sure?');
     if (sure && ctx) {
-      ctx.clearRect(0, 0, 760, 480);
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fillRect(0, 0, 760, 480);
     }
   };
 
