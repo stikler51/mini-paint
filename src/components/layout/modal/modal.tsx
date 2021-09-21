@@ -12,7 +12,7 @@ type ModalType = {
 const Modal = () => {
   const { isOpen, data } = useAppSelector<ModalType>((state) => state.modal.value)
   const dispatch = useAppDispatch()
-  const modalRef = useRef(null)
+  const modalRef = useRef<HTMLDivElement>(null)
 
   const clickOutsideCb = () => {
     dispatch(closeModal())

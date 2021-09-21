@@ -11,27 +11,38 @@ import bucket from '../drawingTools/paintBucket'
 import eraser from '../drawingTools/eraser'
 import { saveArt, getOneArt, updateArt } from '../../../firebase/db'
 
+type ToolOnMouseDown = {
+  e: MouseEvent
+  canvasOffset: { top: number; left: number }
+  setIsPainting: (payload: boolean) => void
+  ctx?: CanvasRenderingContext2D
+}
+
 const DrawingArea = () => {
   const canvas = useRef<HTMLCanvasElement | null>(null)
-  const [isPainting, setIsPainting] = useState<boolean | null>(false)
-  const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null)
-  const [canvasOffset, setCanvasOffset] = useState<{ left: number; top: number }>({ left: 0, top: 0 })
-  const [startDrawingPosition, setStartDrawingPosition] = useState<{ left: number; top: number }>({ left: 0, top: 0 })
+  const [isPainting, setIsPainting] = useState<boolean | null>(false) // indicator when mouse left button is pressed
+  const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null) // canvas context
   const [canvasData, setCanvasData] = useState<ImageData | null>(null)
-  const { artId } = useParams<{ artId: string }>()
-  const history = useHistory()
-
+  // canvas left top corner position
+  const [canvasOffset, setCanvasOffset] = useState<{ left: number; top: number }>({ left: 0, top: 0 })
+  // position of pixel, where drawing is started
+  const [startDrawingPosition, setStartDrawingPosition] = useState<{ left: number; top: number }>({ left: 0, top: 0 })
+  const { artId } = useParams<{ artId: string }>() // id of image from url string
+  const history = useHistory<History>()
+  // active tool and tool settings from redux store
   const { activeTool, color, lineWidth } = useAppSelector<{ activeTool: string; color: string; lineWidth: number }>(
     (state) => state.tool.value,
   )
-  const theme = useAppSelector<string>((state) => state.theme.value)
+  const theme = useAppSelector<string>((state) => state.theme.value) // active theme
+  // history of changing image from redux store
   const { currentPosition, artHistory, manualChanging } = useAppSelector<{
     currentPosition: number
-    artHistory: any[]
+    artHistory: string[]
     manualChanging: boolean
   }>((state) => state.art.value)
   const dispatch = useAppDispatch()
 
+  // TODO: add type
   const tools: any = {
     pen,
     rectangle,
@@ -42,7 +53,7 @@ const DrawingArea = () => {
   }
 
   useEffect(() => {
-    const canvasCtx = canvas.current?.getContext('2d', { alpha: false })
+    const canvasCtx: CanvasRenderingContext2D | null | undefined = canvas.current?.getContext('2d', { alpha: false })
     if (canvasCtx && canvas.current) {
       canvasCtx.fillStyle = '#FFFFFF'
       canvasCtx.fillRect(0, 0, 760, 480) // make white bg
@@ -69,10 +80,7 @@ const DrawingArea = () => {
 
       // needed to use useState because on every rerender canvas context set ups to null
       setCtx(canvasCtx)
-      setCanvasOffset({
-        left: canvas.current.offsetLeft,
-        top: canvas.current.offsetTop,
-      })
+      setCanvasOffset({ left: canvas.current.offsetLeft, top: canvas.current.offsetTop })
     }
   }, [])
 
@@ -101,7 +109,7 @@ const DrawingArea = () => {
   // using undo/redo actions
   useEffect(() => {
     if (ctx && manualChanging) {
-      const image = new Image()
+      const image: HTMLImageElement = new Image()
       image.onload = function () {
         ctx.drawImage(image, 0, 0, 760, 480)
       }
@@ -114,12 +122,7 @@ const DrawingArea = () => {
   const onMouseDown = (e: React.MouseEvent<HTMLCanvasElement, MouseEvent>): void => {
     // Different tools requires different params, so here all needed params for
     // all tools passed as object. And every tool using only needed for it values
-    const startPosition = tools[activeTool].onMouseDown({
-      e,
-      ctx,
-      canvasOffset,
-      setIsPainting,
-    }) // get pixel where user started paint
+    const startPosition = tools[activeTool].onMouseDown({ e, ctx, canvasOffset, setIsPainting }) // get pixel where user started paint
     setStartDrawingPosition(startPosition) // saving it.
     if (ctx) {
       // saving canvas data to restore it on interactive painting
@@ -131,14 +134,7 @@ const DrawingArea = () => {
   const onMouseMove = (e: React.MouseEvent<HTMLCanvasElement, MouseEvent>): void => {
     // Different tools requires different params, so here all needed params for
     // all tools passed as object. And every tool using only needed for it values
-    tools[activeTool].onMouseMove({
-      e,
-      ctx,
-      canvasOffset,
-      isPainting,
-      startDrawingPosition,
-      canvasData,
-    })
+    tools[activeTool].onMouseMove({ e, ctx, canvasOffset, isPainting, startDrawingPosition, canvasData })
   }
 
   const onMouseUp = () => {
@@ -158,7 +154,7 @@ const DrawingArea = () => {
 
   // cleaning up canvas
   const clearCanvas = () => {
-    const sure = window.confirm('Are you sure?')
+    const sure: boolean = window.confirm('Are you sure?')
     if (sure && ctx) {
       ctx.fillStyle = '#FFFFFF'
       ctx.fillRect(0, 0, 760, 480)
@@ -168,7 +164,7 @@ const DrawingArea = () => {
   // saving art to database
   const saveArtToDb = () => {
     if (canvas.current) {
-      const dataURL = canvas.current?.toDataURL()
+      const dataURL: string = canvas.current?.toDataURL()
       saveArt(dataURL).then((id) => history.push(`/editor/${id}`))
     }
   }
@@ -176,7 +172,7 @@ const DrawingArea = () => {
   // updating existing art in database
   const updateArtInDb = () => {
     if (canvas.current) {
-      const dataURL = canvas.current?.toDataURL()
+      const dataURL: string = canvas.current?.toDataURL()
       updateArt(dataURL, artId)
     }
   }

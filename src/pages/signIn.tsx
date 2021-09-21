@@ -16,7 +16,7 @@ type RouteProps = {
 }
 
 export const SignInRoute = ({ path }: RouteProps) => {
-  const { loggedIn } = useAppSelector((state) => state.user.value)
+  const { loggedIn } = useAppSelector<{ loggedIn: boolean }>((state) => state.user.value)
   return <Route path={path}>{loggedIn ? <Redirect to="/user" /> : <SignIn />}</Route>
 }
 

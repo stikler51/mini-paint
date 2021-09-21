@@ -4,7 +4,7 @@ import { enableTool, setColor, setLineWidth } from '../../../store/toolSlice'
 import styles from './toolPanel.module.scss'
 import useClickOutside from '../../../hooks/useClickOutside'
 
-const tools = [
+const tools: { value: string; icon: string }[] = [
   { value: 'pen', icon: '/icons/pen.svg' },
   { value: 'rectangle', icon: '/icons/rectangle.svg' },
   { value: 'ellipse', icon: '/icons/ellipse.svg' },

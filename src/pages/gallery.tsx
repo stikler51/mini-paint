@@ -4,32 +4,28 @@ import { getAllArts, deleteArt, getAllArtsByUserEmail } from '../firebase/db'
 import FilterByUser from '../components/filterByUser/filterByUser'
 
 const Gallery = () => {
-  const [gallery, setGallery] = useState([])
-  const [filterValue, setFilterValue] = useState('')
+  const [gallery, setGallery] = useState<any[]>([])
+  const [filterValue, setFilterValue] = useState<string>('')
 
   useEffect(() => {
     getAllArts().then((data: any) => setGallery(data))
   }, [])
 
   useEffect(() => {
-    async function fetchArts() {
-      let arts = []
-      if (!filterValue) {
-        arts = await getAllArts()
-      } else {
-        arts = await getAllArtsByUserEmail(filterValue)
-      }
-      return arts
+    if (!filterValue) {
+      getAllArts().then((data: any) => {
+        setGallery(data)
+      })
+    } else {
+      getAllArtsByUserEmail(filterValue).then((data: any) => {
+        setGallery(data)
+      })
     }
-
-    fetchArts().then((data: any) => {
-      setGallery(data)
-    })
   }, [filterValue])
 
   const removeArt = (id: string) => {
     deleteArt(id)
-    const gal = gallery.filter((image: { id: any }) => image.id !== id)
+    const gal = gallery.filter((image: { id: string }) => image.id !== id)
     setGallery(gal)
   }
 

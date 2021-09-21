@@ -17,17 +17,15 @@ type OnMouseMoveType = {
 export default {
   onMouseDown: ({ e, canvasOffset, setIsPainting }: OnMouseDownType): { top: number; left: number } => {
     setIsPainting(true)
-    const start = {
+    return {
       top: e.pageY - canvasOffset.top,
       left: e.pageX - canvasOffset.left,
     }
-
-    return start
   },
 
   onMouseMove: ({ e, ctx, canvasOffset, isPainting, startDrawingPosition, canvasData }: OnMouseMoveType): void => {
     if (isPainting) {
-      const finishPos = {
+      const finishPos: { x: number; y: number } = {
         x: e.pageX - canvasOffset.left,
         y: e.pageY - canvasOffset.top,
       }

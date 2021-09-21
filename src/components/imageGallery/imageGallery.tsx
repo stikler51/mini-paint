@@ -24,7 +24,7 @@ const ImageGallery = ({ gallery, onRemove }: GalleryProps) => {
   }>((state) => state.user.value)
   const theme = useAppSelector<string>((state) => state.theme.value)
 
-  const viewArt = (imageData: ImageData) => {
+  const viewArt = (imageData: ImageData): void => {
     dispatch(openModal(imageData))
   }
 

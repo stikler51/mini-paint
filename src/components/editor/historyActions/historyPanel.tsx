@@ -4,7 +4,9 @@ import { prevArtState, nextArtState } from '../../../store/artSlice'
 import styles from '../toolPanel/toolPanel.module.scss'
 
 const HistoryPanel = () => {
-  const { currentPosition, artHistory } = useAppSelector((state) => state.art.value)
+  const { currentPosition, artHistory } = useAppSelector<{ currentPosition: number; artHistory: string[] }>(
+    (state) => state.art.value,
+  )
   const theme = useAppSelector<string>((state) => state.theme.value)
   const dispatch = useAppDispatch()
   // maximum history stack size = 20

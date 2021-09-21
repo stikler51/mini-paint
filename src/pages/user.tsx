@@ -16,7 +16,7 @@ type UserStateType = {
 }
 
 const User = () => {
-  const [gallery, setGallery] = useState([])
+  const [gallery, setGallery] = useState<any[]>([])
   const { user } = useAppSelector<UserStateType>((state) => state.user.value)
 
   useEffect(() => {
@@ -27,7 +27,7 @@ const User = () => {
 
   const removeArt = (id: string) => {
     deleteArt(id)
-    const gal = gallery.filter((image: any) => image.id !== id)
+    const gal = gallery.filter((image: { id: string }) => image.id !== id)
     setGallery(gal)
   }
 
@@ -58,7 +58,7 @@ type routeProps = {
 }
 
 export const UserRoute = ({ path }: routeProps) => {
-  const { loggedIn } = useAppSelector((state) => state.user.value)
+  const { loggedIn } = useAppSelector<{ loggedIn: boolean }>((state) => state.user.value)
   return <Route path={path}>{loggedIn ? <User /> : <Redirect to="/signin" />}</Route>
 }
 

@@ -8,16 +8,28 @@ type PropsType = {
   action: string
 }
 
+type UserObjectType = {
+  email: string
+  uid: string
+  accessToken: string
+}
+
+type UserType = {
+  user: null | UserObjectType
+  loggedIn: boolean
+  errors: string | null
+}
+
 // component used for authorization and registration actions
 const AuthorizationForm = ({ cb, action }: PropsType) => {
-  const [email, setEmail] = useState('') // input email value
-  const [password, setPassword] = useState('') // input password value
+  const [email, setEmail] = useState<string>('') // input email value
+  const [password, setPassword] = useState<string>('') // input password value
 
   // needed for applying right action to form (authorization or registration)
-  const { pathname } = useLocation()
+  const { pathname } = useLocation<string>()
 
-  const user = useAppSelector((state) => state.user.value)
-  const theme = useAppSelector((state) => state.theme.value)
+  const user: UserType = useAppSelector((state) => state.user.value)
+  const theme: string = useAppSelector((state) => state.theme.value)
 
   return (
     <div className={styles[theme]}>

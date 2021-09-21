@@ -15,7 +15,7 @@ type RouteProps = {
 }
 
 export const EditorRoute = ({ path }: RouteProps) => {
-  const { loggedIn } = useAppSelector((state) => state.user.value)
+  const { loggedIn } = useAppSelector<{ loggedIn: boolean }>((state) => state.user.value)
   const loggedInSessionStorage: boolean = JSON.parse(sessionStorage.getItem('mini-paint-loggedIn') || '')
   return <Route path={`${path}`}>{loggedIn || loggedInSessionStorage ? <Editor /> : <Redirect to="/signin" />}</Route>
 }

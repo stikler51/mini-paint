@@ -6,12 +6,16 @@ type FilterProps = {
 }
 
 const FilterByUser = ({ onFilter }: FilterProps) => {
-  const [users, setUsers] = useState<any>([])
+  const [users, setUsers] = useState<any[]>([])
+
   useEffect(() => {
-    getAllUsers().then((data) => setUsers(data))
+    getAllUsers().then((data) => {
+      setUsers(data)
+      console.log(typeof data)
+    })
   }, [])
 
-  const changeHandler = (data: string) => {
+  const changeHandler = (data: string): void => {
     onFilter(data)
   }
 

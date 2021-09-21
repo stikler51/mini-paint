@@ -17,23 +17,21 @@ type OnMouseMoveType = {
 export default {
   onMouseDown: ({ e, canvasOffset, setIsPainting }: OnMouseDownType): { top: number; left: number } => {
     setIsPainting(true)
-    const start = {
+    return {
       top: e.pageY - canvasOffset.top,
       left: e.pageX - canvasOffset.left,
     }
-
-    return start
   },
 
   onMouseMove: ({ e, ctx, canvasOffset, isPainting, startDrawingPosition, canvasData }: OnMouseMoveType): void => {
     if (isPainting) {
-      const radiusX = Math.round((e.pageX - canvasOffset.left - startDrawingPosition.left) / 2)
-      const radiusY = Math.round((e.pageY - canvasOffset.top - startDrawingPosition.top) / 2)
+      const radiusX: number = Math.round((e.pageX - canvasOffset.left - startDrawingPosition.left) / 2)
+      const radiusY: number = Math.round((e.pageY - canvasOffset.top - startDrawingPosition.top) / 2)
       ctx.clearRect(0, 0, 760, 480)
       ctx.putImageData(canvasData, 0, 0)
       ctx.beginPath()
       if (e.shiftKey) {
-        let ellipseHeightRadius
+        let ellipseHeightRadius: number
 
         if (radiusY < 0 && radiusX > 0) {
           // 4th quarter (x; -y)

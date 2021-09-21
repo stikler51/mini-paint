@@ -17,7 +17,7 @@ type UserStateType = {
 
 const Header = () => {
   const { loggedIn, user } = useAppSelector<UserStateType>((state) => state.user.value)
-  const theme = useAppSelector((state) => state.theme.value)
+  const theme = useAppSelector<string>((state) => state.theme.value)
   return (
     <header className={`${styles[theme]}`}>
       <div className={`container ${styles.wrapper}`}>

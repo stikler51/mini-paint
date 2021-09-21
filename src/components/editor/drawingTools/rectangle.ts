@@ -17,24 +17,22 @@ type OnMouseMoveType = {
 export default {
   onMouseDown: ({ e, canvasOffset, setIsPainting }: OnMouseDownType): { top: number; left: number } => {
     setIsPainting(true)
-    const start = {
+    return {
       top: e.pageY - canvasOffset.top,
       left: e.pageX - canvasOffset.left,
     }
-
-    return start
   },
 
   onMouseMove: ({ e, ctx, canvasOffset, isPainting, startDrawingPosition, canvasData }: OnMouseMoveType): void => {
     if (isPainting) {
-      const rectangle = {
+      const rectangle: { width: number; height: number } = {
         width: e.pageX - canvasOffset.left - startDrawingPosition.left,
         height: e.pageY - canvasOffset.top - startDrawingPosition.top,
       }
       ctx.clearRect(0, 0, 760, 480)
       ctx.putImageData(canvasData, 0, 0)
       if (e.shiftKey) {
-        let rectangleHeight
+        let rectangleHeight: number
 
         if (rectangle.height < 0 && rectangle.width > 0) {
           // 4th quarter (x; -y)
