@@ -25,11 +25,18 @@
     &:hover {
       background: $lightToolButtonHover;
     }
+
+    &[disabled] {
+      opacity: 0.5;
+
+      &:hover {
+        background: $lightToolButton;
+      }
+    }
     
     img {
       width: 20px;
       height: 20px;
-      // filter: invert(1);
     }
   }
   
@@ -104,6 +111,14 @@
     position: relative;
     &:hover {
       background: $darkToolButtonHover;
+    }
+
+    &[disabled] {
+      opacity: 0.5;
+
+      &:hover {
+        background: $darkToolButton;
+      }
     }
     
     img {

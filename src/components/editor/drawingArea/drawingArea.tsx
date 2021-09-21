@@ -2,7 +2,8 @@ import React, {
   useRef, useEffect, useState
 } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-import { useAppSelector } from '../../../store/hooks';
+import { useAppSelector, useAppDispatch } from '../../../store/hooks';
+import { pushActionInHistory } from '../../../store/artSlice';
 import styles from './drawingArea.module.scss';
 import pen from '../drawingTools/pen';
 import rectangle from '../drawingTools/rectangle';
@@ -10,7 +11,6 @@ import ellipse from '../drawingTools/ellipse';
 import line from '../drawingTools/line';
 import bucket from '../drawingTools/paintBucket';
 import eraser from '../drawingTools/eraser';
-
 import { saveArt, getOneArt, updateArt } from '../../../firebase/db';
 
 const DrawingArea = () => {
@@ -45,13 +45,20 @@ const DrawingArea = () => {
     lineWidth: number
   }>((state) => state.tool.value);
   const theme = useAppSelector<string>((state) => state.theme.value);
+  const { currentPosition, artHistory, manualChanging } = useAppSelector<
+    {
+      currentPosition: number,
+      artHistory: any[],
+      manualChanging: boolean
+    }
+  >((state) => state.art.value);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const canvasCtx = canvas.current?.getContext('2d');
+    const canvasCtx = canvas.current?.getContext('2d', { alpha: false });
     if (canvasCtx && canvas.current) {
       canvasCtx.fillStyle = '#FFFFFF';
       canvasCtx.fillRect(0, 0, 760, 480);
-
       canvasCtx.strokeStyle = color;
       canvasCtx.fillStyle = color;
       canvasCtx.lineWidth = lineWidth;
@@ -61,10 +68,13 @@ const DrawingArea = () => {
           .then((art) => {
             const image = new Image();
             image.src = art.data()?.imageData;
-            canvasCtx.drawImage(image, 0, 0);
+            image.onload = function () {
+              canvasCtx.drawImage(image, 0, 0, 760, 480);
+            };
           });
       }
 
+      dispatch(pushActionInHistory(canvas.current?.toDataURL()));
       setCtx(canvasCtx);
       setCanvasOffset({
         left: canvas.current.offsetLeft,
@@ -92,6 +102,16 @@ const DrawingArea = () => {
     }
   }, [lineWidth]);
 
+  useEffect(() => {
+    if (ctx && manualChanging) {
+      const image = new Image();
+      image.onload = function () {
+        ctx.drawImage(image, 0, 0, 760, 480);
+      };
+      image.src = artHistory[currentPosition];
+    }
+  }, [currentPosition]);
+
   const onMouseDown = (e: React.MouseEvent<HTMLCanvasElement, MouseEvent>): void => {
     const startPosition = tools[activeTool].onMouseDown({
       e, ctx, canvasOffset, setIsPainting
@@ -111,6 +131,7 @@ const DrawingArea = () => {
 
   const onMouseUp = () => {
     tools[activeTool].onMouseUp(setIsPainting);
+    dispatch(pushActionInHistory(canvas.current?.toDataURL()));
   };
 
   const clearCanvas = () => {
@@ -149,7 +170,7 @@ const DrawingArea = () => {
       <div className={styles.bottomPanel}>
         <button
           type="button"
-          className="btn btn-danger"
+          className="btn btn-warning"
           onClick={clearCanvas}
         >
           Clear
