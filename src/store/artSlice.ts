@@ -4,16 +4,14 @@ export const artSlice = createSlice({
   name: 'art',
   initialState: {
     value: {
-      id: '',
       artHistory: [],
       currentPosition: 0,
       manualChanging: false
     }
   },
   reducers: {
-    createNewArt: (state, action) => {
+    createNewArt: (state) => {
       state.value = {
-        id: action.payload,
         artHistory: [],
         currentPosition: state.value.currentPosition,
         manualChanging: false
@@ -25,7 +23,6 @@ export const artSlice = createSlice({
         oldState.shift();
       }
       state.value = {
-        id: state.value.id,
         artHistory: [...oldState, action.payload],
         currentPosition: oldState.length,
         manualChanging: false
@@ -33,7 +30,6 @@ export const artSlice = createSlice({
     },
     prevArtState: (state) => {
       state.value = {
-        id: state.value.id,
         artHistory: [...state.value.artHistory],
         currentPosition: state.value.currentPosition - 1,
         manualChanging: true
@@ -41,7 +37,6 @@ export const artSlice = createSlice({
     },
     nextArtState: (state) => {
       state.value = {
-        id: state.value.id,
         artHistory: [...state.value.artHistory],
         currentPosition: state.value.currentPosition + 1,
         manualChanging: true

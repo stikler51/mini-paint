@@ -3,7 +3,7 @@ import React, {
 } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../../../store/hooks';
-import { pushActionInHistory } from '../../../store/artSlice';
+import { pushActionInHistory, createNewArt } from '../../../store/artSlice';
 import styles from './drawingArea.module.scss';
 import pen from '../drawingTools/pen';
 import rectangle from '../drawingTools/rectangle';
@@ -73,7 +73,7 @@ const DrawingArea = () => {
             };
           });
       }
-
+      dispatch(createNewArt());
       dispatch(pushActionInHistory(canvas.current?.toDataURL()));
       setCtx(canvasCtx);
       setCanvasOffset({
