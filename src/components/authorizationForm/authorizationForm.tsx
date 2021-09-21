@@ -18,7 +18,7 @@ const AuthorizationForm: React.FC<{
 
   return (
     <div className={styles[theme]}>
-      <div className={styles.authorizationForm}>
+      <form className={styles.authorizationForm}>
         <div className="mb-2">
           <input
             type="email"
@@ -42,7 +42,10 @@ const AuthorizationForm: React.FC<{
         <input
           type="submit"
           className="btn btn-primary"
-          onClick={() => cb(email, password)}
+          onClick={(e) => {
+            e.preventDefault();
+            cb(email, password);
+          }}
           value={action}
         />
         {
@@ -60,7 +63,7 @@ const AuthorizationForm: React.FC<{
             : ''
         }
 
-      </div>
+      </form>
     </div>
   );
 };
