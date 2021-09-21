@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit'
 
 // using for displaying modal windows
 export const modalSlice = createSlice({
@@ -6,25 +6,25 @@ export const modalSlice = createSlice({
   initialState: {
     value: {
       isOpen: false,
-      data: ''
-    }
+      data: '',
+    },
   },
   reducers: {
     openModal: (state, action) => {
       state.value = {
         isOpen: true,
-        data: action.payload
-      };
+        data: action.payload,
+      }
     },
     closeModal: (state) => {
       state.value = {
         isOpen: false,
-        data: ''
-      };
-    }
-  }
-});
+        data: '',
+      }
+    },
+  },
+})
 
-export const { openModal, closeModal } = modalSlice.actions;
+export const { openModal, closeModal } = modalSlice.actions
 
-export default modalSlice.reducer;
+export default modalSlice.reducer

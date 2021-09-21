@@ -1,24 +1,24 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit'
 
 // used for changing theme
 // if need to change, just change default value here
-const defaultTheme = 'light'; // 'light' or 'dark'
+const defaultTheme = 'light' // 'light' or 'dark'
 
 export const themeSlice = createSlice({
   name: 'theme',
   initialState: {
-    value: defaultTheme
+    value: defaultTheme,
   },
   reducers: {
     enableDarkTheme: (state) => {
-      state.value = 'dark';
+      state.value = 'dark'
     },
     enableLightTheme: (state) => {
-      state.value = 'light';
-    }
-  }
-});
+      state.value = 'light'
+    },
+  },
+})
 
-export const { enableDarkTheme, enableLightTheme } = themeSlice.actions;
+export const { enableDarkTheme, enableLightTheme } = themeSlice.actions
 
-export default themeSlice.reducer;
+export default themeSlice.reducer

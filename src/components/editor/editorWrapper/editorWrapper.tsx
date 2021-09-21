@@ -1,8 +1,8 @@
-import React from 'react';
-import DrawingArea from '../drawingArea/drawingArea';
-import ToolPanel from '../toolPanel/toolPanel';
-import HistoryPanel from '../historyActions/historyPanel';
-import styles from './editorWrapper.module.scss';
+import React from 'react'
+import DrawingArea from '../drawingArea/drawingArea'
+import ToolPanel from '../toolPanel/toolPanel'
+import HistoryPanel from '../historyActions/historyPanel'
+import styles from './editorWrapper.module.scss'
 
 const EditorWrapper = () => (
   <div className={styles.wrapper}>
@@ -10,6 +10,6 @@ const EditorWrapper = () => (
     <DrawingArea />
     <HistoryPanel />
   </div>
-);
+)
 
-export default EditorWrapper;
+export default EditorWrapper

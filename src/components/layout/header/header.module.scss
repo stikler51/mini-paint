@@ -1,40 +1,40 @@
 @import '../../../styles/colors.scss';
 
 .light {
-    box-shadow: 0px 2px 15px 0px $lightShadowColor;
-    background: $lightBg;
-    color: $lightTextColor;
-    padding: 15px 0;
-    z-index: 1;
-    .wrapper {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-    .logo {
-        height: 40px;
-        width: auto;
-    }
+  box-shadow: 0px 2px 15px 0px $lightShadowColor;
+  background: $lightBg;
+  color: $lightTextColor;
+  padding: 15px 0;
+  z-index: 1;
+  .wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .logo {
+    height: 40px;
+    width: auto;
+  }
 }
 
 .dark {
-    box-shadow: 0px 2px 15px 0px $darkShadowColor;
-    background: $darkBg;
+  box-shadow: 0px 2px 15px 0px $darkShadowColor;
+  background: $darkBg;
+  color: $darkTextColor;
+  padding: 15px 0;
+  z-index: 1;
+  .wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .logo {
+    height: 40px;
+    width: auto;
+    filter: invert(1);
+    mix-blend-mode: lighten;
+  }
+  a {
     color: $darkTextColor;
-    padding: 15px 0;
-    z-index: 1;
-    .wrapper {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-    .logo {
-        height: 40px;
-        width: auto;
-        filter: invert(1);
-        mix-blend-mode: lighten;
-    }
-    a {
-        color: $darkTextColor
-    }
+  }
 }

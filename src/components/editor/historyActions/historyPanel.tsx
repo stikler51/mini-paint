@@ -1,36 +1,38 @@
-import React, { useEffect } from 'react';
-import { useAppSelector, useAppDispatch } from '../../../store/hooks';
-import { prevArtState, nextArtState } from '../../../store/artSlice';
-import styles from '../toolPanel/toolPanel.module.scss';
+import React, { useEffect } from 'react'
+import { useAppSelector, useAppDispatch } from '../../../store/hooks'
+import { prevArtState, nextArtState } from '../../../store/artSlice'
+import styles from '../toolPanel/toolPanel.module.scss'
 
 const HistoryPanel = () => {
-  const { currentPosition, artHistory } = useAppSelector((state) => state.art.value);
-  const theme = useAppSelector<string>((state) => state.theme.value);
-  const dispatch = useAppDispatch();
+  const { currentPosition, artHistory } = useAppSelector((state) => state.art.value)
+  const theme = useAppSelector<string>((state) => state.theme.value)
+  const dispatch = useAppDispatch()
   // maximum history stack size = 20
-  // if need to change, change here and in store/artSlice.tx
-  const maxStackSize = 20;
+  // if need to change, change here and in store/artSlice.ts
+  const maxStackSize = 20
 
   const onKeysPress = (e: KeyboardEvent) => {
-    if (e.keyCode === 90 && e.ctrlKey) { // ctrl + z - undo action
+    if (e.keyCode === 90 && e.ctrlKey) {
+      // ctrl + z - undo action
       if (currentPosition > 0) {
-        dispatch(prevArtState());
+        dispatch(prevArtState())
       }
     }
 
-    if (e.keyCode === 89 && e.ctrlKey) { // ctrl + y - redo actions
+    if (e.keyCode === 89 && e.ctrlKey) {
+      // ctrl + y - redo actions
       if (currentPosition < maxStackSize && currentPosition < artHistory.length - 1) {
-        dispatch(nextArtState());
+        dispatch(nextArtState())
       }
     }
-  };
+  }
 
   useEffect(() => {
-    document.addEventListener('keydown', onKeysPress);
+    document.addEventListener('keydown', onKeysPress)
     return () => {
-      document.removeEventListener('keydown', onKeysPress);
-    };
-  }, [currentPosition]);
+      document.removeEventListener('keydown', onKeysPress)
+    }
+  }, [currentPosition])
 
   return (
     <div className={styles[theme]}>
@@ -40,7 +42,7 @@ const HistoryPanel = () => {
         disabled={currentPosition === 0}
         onClick={() => {
           if (currentPosition > 0) {
-            dispatch(prevArtState());
+            dispatch(prevArtState())
           }
         }}
       >
@@ -52,14 +54,14 @@ const HistoryPanel = () => {
         disabled={currentPosition >= artHistory.length - 1}
         onClick={() => {
           if (currentPosition < maxStackSize && artHistory.length > currentPosition) {
-            dispatch(nextArtState());
+            dispatch(nextArtState())
           }
         }}
       >
         <img src="/icons/redo.svg" alt="Redo" />
       </button>
     </div>
-  );
-};
+  )
+}
 
-export default HistoryPanel;
+export default HistoryPanel

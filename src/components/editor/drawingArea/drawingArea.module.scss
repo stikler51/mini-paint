@@ -1,52 +1,51 @@
 @import '../../../styles/colors.scss';
 
 .light {
-        max-width: 100%;
-        box-shadow: 0px 2px 15px 0px $lightShadowColor;
-        padding: 10px;
-        border-radius: 8px;
-    
-        canvas {
-            border: 1px solid $lightShadowColor;
-            background: $lightBg;
-            display: block;
-        }
-    
-    .bottomPanel {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 10px;
-        margin-top: 10px;
-    
-        button {
-            width: 100%;
-        }
+  max-width: 100%;
+  box-shadow: 0px 2px 15px 0px $lightShadowColor;
+  padding: 10px;
+  border-radius: 8px;
+
+  canvas {
+    border: 1px solid $lightShadowColor;
+    background: $lightBg;
+    display: block;
+  }
+
+  .bottomPanel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+
+    button {
+      width: 100%;
     }
+  }
 }
 
-
 .dark {
-    max-width: 100%;
-    box-shadow: 0px 2px 15px 0px $darkShadowColor;
-    padding: 10px;
-    border-radius: 8px;
-    
-    canvas {
-        border: 1px solid $darkShadowColor;
-        display: block;
-        background: $lightBg;
+  max-width: 100%;
+  box-shadow: 0px 2px 15px 0px $darkShadowColor;
+  padding: 10px;
+  border-radius: 8px;
+
+  canvas {
+    border: 1px solid $darkShadowColor;
+    display: block;
+    background: $lightBg;
+  }
+
+  .bottomPanel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+
+    button {
+      width: 100%;
     }
-    
-    .bottomPanel {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 10px;
-        margin-top: 10px;
-    
-        button {
-            width: 100%;
-        }
-    }
+  }
 }

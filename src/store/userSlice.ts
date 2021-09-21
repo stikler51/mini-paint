@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit'
 
 // used for keeping information about authorized user and authorization errors
 export const userSlice = createSlice({
@@ -7,30 +7,30 @@ export const userSlice = createSlice({
     value: {
       user: null,
       loggedIn: false,
-      errors: null
-    }
+      errors: null,
+    },
   },
   reducers: {
     login: (state, action) => {
       state.value = {
         user: action.payload,
         loggedIn: true,
-        errors: state.value.errors
-      };
+        errors: state.value.errors,
+      }
     },
     logout: (state) => {
       state.value = {
         user: null,
         loggedIn: false,
-        errors: state.value.errors
-      };
+        errors: state.value.errors,
+      }
     },
     setError: (state, action) => {
-      state.value.errors = action.payload;
-    }
-  }
-});
+      state.value.errors = action.payload
+    },
+  },
+})
 
-export const { login, logout, setError } = userSlice.actions;
+export const { login, logout, setError } = userSlice.actions
 
-export default userSlice.reducer;
+export default userSlice.reducer

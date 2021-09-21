@@ -4,26 +4,26 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-gap: 15px;
-  
+
   .artWrapper {
     box-shadow: 0px 2px 15px 0px $lightShadowColor;
     padding: 10px;
     border-radius: 8px;
     position: relative;
     background: $lightBg;
-  
+
     img {
       width: 100%;
       border: 1px solid $lightShadowColor;
     }
-  
+
     &:hover {
       .actionsLayer {
         display: flex;
       }
     }
   }
-  
+
   .actionsLayer {
     display: none;
     position: absolute;
@@ -34,12 +34,12 @@
     justify-content: center;
     align-items: center;
     gap: 10px;
-    background: #FFFFFF20;
+    background: #ffffff20;
     backdrop-filter: blur(4px);
     transition: 0.3s;
     flex-wrap: wrap;
   }
-  
+
   .actionButton {
     display: block;
     background: transparent;
@@ -53,15 +53,15 @@
       height: auto;
       border: none;
     }
-  
+
     &:hover {
-      background: $lightToolButton
+      background: $lightToolButton;
     }
   }
-  
+
   .aboutArt {
     width: 100%;
-  
+
     p {
       margin-bottom: 0;
       font-size: 12px;
@@ -70,12 +70,11 @@
   }
 }
 
-
 .dark {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-gap: 15px;
-  
+
   .artWrapper {
     box-shadow: 0px 2px 15px 0px $darkShadowColor;
     padding: 10px;
@@ -83,20 +82,20 @@
     position: relative;
     background: $darkBg;
     overflow: hidden;
-  
+
     img {
       width: 100%;
       border: 1px solid $lightShadowColor;
       background: $lightBg;
     }
-  
+
     &:hover {
       .actionsLayer {
         display: flex;
       }
     }
   }
-  
+
   .actionsLayer {
     display: none;
     position: absolute;
@@ -107,13 +106,13 @@
     justify-content: center;
     align-items: center;
     gap: 10px;
-    background: #FFFFFF20;
+    background: #ffffff20;
     backdrop-filter: blur(4px);
     transition: 0.3s;
     flex-wrap: wrap;
     color: $lightTextColor;
   }
-  
+
   .actionButton {
     display: block;
     background: transparent;
@@ -128,15 +127,15 @@
       border: none;
       background: transparent;
     }
-  
+
     &:hover {
-      background: $lightToolButton
+      background: $lightToolButton;
     }
   }
-  
+
   .aboutArt {
     width: 100%;
-  
+
     p {
       margin-bottom: 0;
       font-size: 12px;

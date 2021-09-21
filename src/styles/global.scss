@@ -3,12 +3,11 @@
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Poppins", "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Poppins', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell',
+    'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
- 
+
   #root {
     display: flex;
     flex-direction: column;
@@ -18,15 +17,15 @@ body {
     header {
       flex-grow: 0;
     }
-  
+
     main {
       flex-grow: 1;
       padding: 30px 0;
       &.dark {
         background: $darkBg;
-        color: $darkTextColor
+        color: $darkTextColor;
       }
-  
+
       &.light {
         background: $lightBg;
         color: $lightTextColor;
@@ -67,7 +66,7 @@ body {
 
           &:before {
             content: '';
-            background-image: url("./assets/duck.png");
+            background-image: url('./assets/duck.png');
             width: 140px;
             height: 250px;
             display: block;
@@ -84,7 +83,11 @@ body {
             cursor: pointer;
             &:after {
               content: 'ducks';
-              background-image: radial-gradient( circle farthest-corner at 7.2% 13.6%,  rgba(37,249,245,1) 0%, rgba(8,70,218,1) 90% );
+              background-image: radial-gradient(
+                circle farthest-corner at 7.2% 13.6%,
+                rgba(37, 249, 245, 1) 0%,
+                rgba(8, 70, 218, 1) 90%
+              );
               -webkit-background-clip: text;
               -webkit-text-fill-color: transparent;
               border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
@@ -97,7 +100,7 @@ body {
         }
       }
     }
-  
+
     footer {
       flex-grow: 0;
     }

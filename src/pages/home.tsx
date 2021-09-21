@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react'
+import { Link } from 'react-router-dom'
 
 const Home = () => (
   <>
@@ -11,11 +11,15 @@ const Home = () => (
         <span className="easterEgg" />
       </h1>
       <div className="mainPageButtons">
-        <Link className="btn btn-success" to="/editor">Start drawing</Link>
-        <Link className="btn btn-success" to="/gallery">Art Gallery</Link>
+        <Link className="btn btn-success" to="/editor">
+          Start drawing
+        </Link>
+        <Link className="btn btn-success" to="/gallery">
+          Art Gallery
+        </Link>
       </div>
     </div>
   </>
-);
+)
 
-export default Home;
+export default Home

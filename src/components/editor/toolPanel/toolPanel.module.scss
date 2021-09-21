@@ -33,17 +33,17 @@
         background: $lightToolButton;
       }
     }
-    
+
     img {
       width: 20px;
       height: 20px;
     }
   }
-  
+
   .activeTool {
-    background: $lightToolButtonHover
+    background: $lightToolButtonHover;
   }
-  
+
   .colorPickerWrapper {
     border-radius: 6px;
     overflow: hidden;
@@ -54,12 +54,12 @@
     border: 1px solid $lightShadowColor;
     padding: 4px;
   }
-  
+
   .colorIndicator {
     height: 100%;
     border-radius: 4px;
   }
-  
+
   .colorPicker {
     border: none;
     padding: 0;
@@ -69,7 +69,7 @@
     height: 100%;
     opacity: 0;
   }
-  
+
   .lineWidthWrapper {
     position: absolute;
     top: 100%;
@@ -81,7 +81,7 @@
     background: $lightBg;
     color: $lightTextColor;
   }
-  
+
   .widthExample {
     display: block;
   }
@@ -120,18 +120,18 @@
         background: $darkToolButton;
       }
     }
-    
+
     img {
       width: 20px;
       height: 20px;
       filter: invert(1);
     }
   }
-  
+
   .activeTool {
-    background: $darkToolButtonHover
+    background: $darkToolButtonHover;
   }
-  
+
   .colorPickerWrapper {
     border-radius: 6px;
     overflow: hidden;
@@ -142,12 +142,12 @@
     border: 1px solid $darkShadowColor;
     padding: 4px;
   }
-  
+
   .colorIndicator {
     height: 100%;
     border-radius: 4px;
   }
-  
+
   .colorPicker {
     border: none;
     padding: 0;
@@ -157,7 +157,7 @@
     height: 100%;
     opacity: 0;
   }
-  
+
   .lineWidthWrapper {
     position: absolute;
     top: 100%;
@@ -169,9 +169,8 @@
     background: $darkBg;
     color: $darkTextColor;
   }
-  
+
   .widthExample {
     display: block;
   }
 }
-

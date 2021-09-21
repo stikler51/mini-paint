@@ -1,20 +1,16 @@
-import React from 'react';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route
-} from 'react-router-dom';
-import { Provider } from 'react-redux';
-import Header from './components/layout/header/header';
-import Home from './pages/home';
-import { SignInRoute } from './pages/signIn';
-import { RegisterRoute } from './pages/register';
-import { UserRoute } from './pages/user';
-import { EditorRoute } from './pages/editor';
-import store from './store/store';
-import LoadingIndicator from './components/layout/loader/loader';
-import Modal from './components/layout/modal/modal';
-import Gallery from './pages/gallery';
+import React from 'react'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { Provider } from 'react-redux'
+import Header from './components/layout/header/header'
+import Home from './pages/home'
+import { SignInRoute } from './pages/signIn'
+import { RegisterRoute } from './pages/register'
+import { UserRoute } from './pages/user'
+import { EditorRoute } from './pages/editor'
+import store from './store/store'
+import LoadingIndicator from './components/layout/loader/loader'
+import Modal from './components/layout/modal/modal'
+import Gallery from './pages/gallery'
 
 function App() {
   return (
@@ -42,7 +38,7 @@ function App() {
         <Modal />
       </Router>
     </Provider>
-  );
+  )
 }
 
-export default App;
+export default App
