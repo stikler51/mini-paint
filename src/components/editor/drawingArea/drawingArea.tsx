@@ -134,6 +134,13 @@ const DrawingArea = () => {
     dispatch(pushActionInHistory(canvas.current?.toDataURL()));
   };
 
+  const onMouseLeave = () => {
+    if (isPainting) {
+      setIsPainting(false);
+      dispatch(pushActionInHistory(canvas.current?.toDataURL()));
+    }
+  };
+
   const clearCanvas = () => {
     const sure = window.confirm('Are you sure?');
     if (sure && ctx) {
@@ -163,6 +170,7 @@ const DrawingArea = () => {
         onMouseDown={(e) => onMouseDown(e)}
         onMouseMove={(e) => onMouseMove(e)}
         onMouseUp={() => onMouseUp()}
+        onMouseLeave={() => onMouseLeave()}
         width="760px"
         height="480px"
       />
