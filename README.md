@@ -4,6 +4,10 @@
 
 [https://docs.google.com/document/d/1K79_NA4lMYfqQiIJGqLDek1K9z-oc2qg8n4AvrN1PXE/edit?hl=ru&forcehl=1](https://docs.google.com/document/d/1K79_NA4lMYfqQiIJGqLDek1K9z-oc2qg8n4AvrN1PXE/edit?hl=ru&forcehl=1)
 
+## Demo
+
+[https://mini-paint-bay.vercel.app/](https://mini-paint-bay.vercel.app/)
+
 ## Installation
 
 `git clone https://github.com/stikler51/mini-paint.git`
