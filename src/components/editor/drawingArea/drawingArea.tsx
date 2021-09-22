@@ -31,7 +31,6 @@ type Tool = {
   [key: string]: {
     onMouseDown: ({ e, ctx, canvasOffset, setIsPainting }: ToolOnMouseDown) => { top: number; left: number }
     onMouseMove: ({ e, ctx, canvasOffset, isPainting, startDrawingPosition, canvasData }: ToolOnMouseMove) => void
-    // onMouseUp: ({}: any) => void
   }
 }
 

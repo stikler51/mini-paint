@@ -1,6 +1,18 @@
-# Getting Started with Create React App
+# Mini Paint Web Application
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Task
+
+[https://docs.google.com/document/d/1K79_NA4lMYfqQiIJGqLDek1K9z-oc2qg8n4AvrN1PXE/edit?hl=ru&forcehl=1](https://docs.google.com/document/d/1K79_NA4lMYfqQiIJGqLDek1K9z-oc2qg8n4AvrN1PXE/edit?hl=ru&forcehl=1)
+
+## Installation
+
+`git clone https://github.com/stikler51/mini-paint.git`
+
+`cd mini-paint`
+
+`npm install`
+
+Put `.env` file to the root folder
 
 ## Available Scripts
 
@@ -14,11 +26,6 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
 ### `npm run build`
 
 Builds the app for production to the `build` folder.\
@@ -27,44 +34,54 @@ It correctly bundles React in production mode and optimizes the build for the be
 The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Features
 
-### `npm run eject`
+- Authorization and registration by E-mail
+- Accessing to editor page only for registered users
+- Tools
+  - Pen
+  - Line
+  - Rectangle (with pressed Shift draws square)
+  - Ellipse (with pressed Shift draws circle)
+  - Paint bucket
+  - Eraser
+  - Line width and color choosing
+- Undo / Redo actions (also works for ctrl + z and ctrl + y)
+- Saving image and availability to edit it later
+- Gallery of all created images
+- Availability to filter gallery by user
+- Availability to remove your images
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Project structure
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+`/src/components` - this folder contains all components. Every component is in separate folder. All components folders and files named in camel case. Every component folder contains component file named as `componentName.tsx` and stylesheet file (if it needed) named as `componentName.module.scss`. About modular stylesheets and it advantages, you can read here [https://create-react-app.dev/docs/adding-a-css-modules-stylesheet/](https://create-react-app.dev/docs/adding-a-css-modules-stylesheet/)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+`/src/firebase` - contains functions and methods to work with firebase authentications and firestore database
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+`/src/hooks` - contains custom hooks
 
-## Learn More
+`/src/pages` - contains react components which implements separate pages for using in router
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+`/src/store` - contains Redux store files
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+`/src/styles` - contains global styles
 
-### Code Splitting
+## Database snapshot
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+In this project there are 2 collections: art and user. Collection art contains information about saved images and consists of next fields:
 
-### Analyzing the Bundle Size
+| Field name |      Type |                      Example | Description                             |
+| ---------- | --------: | ---------------------------: | --------------------------------------- |
+| email      |    string |              mail.@gmail.com | Email of user, which creates this image |
+| uid        |    string | 5lns0xYfpeaEbw2yHZA2bNvehhp1 | ID of user, which creates this image    |
+| imageData  |    string |  data:image/png;base64,iV... | Image converted in Base64 string        |
+| created    | timestamp |                              | Date when image was created             |
+| updated    | timestamp |                              | Date when image was updated             |
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Collection user contains information about users and needed for filtering gallery by users:
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+| Field name |      Type |                      Example | Description                |
+| ---------- | --------: | ---------------------------: | -------------------------- |
+| email      |    string |              mail.@gmail.com | Email of user              |
+| uid        |    string | 5lns0xYfpeaEbw2yHZA2bNvehhp1 | ID of user                 |
+| created    | timestamp |                              | Date when user was created |

@@ -31,6 +31,17 @@
     "lint": "eslint --fix src/index.tsx",
     "format": "prettier -w ."
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "npm run format",
+      "git add"
+    ]
+  },
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -68,15 +79,5 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "prettier": "^2.3.2",
     "webpack-cli": "^4.8.0"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
-      "prettier --write"
-    ]
   }
 }
