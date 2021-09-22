@@ -1,3 +1,4 @@
+import { DocumentData } from '@firebase/firestore'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { useAppSelector, useAppDispatch } from '../../store/hooks'
@@ -5,14 +6,13 @@ import { openModal } from '../../store/modalSlice'
 import styles from './imageGallery.module.scss'
 
 type GalleryProps = {
-  gallery: object[]
+  gallery: DocumentData[]
   onRemove: (id: string) => void
 }
 
 type UserType = {
   email: string
   uid: string
-  accessToken: string
 }
 
 const ImageGallery = ({ gallery, onRemove }: GalleryProps) => {
@@ -20,11 +20,11 @@ const ImageGallery = ({ gallery, onRemove }: GalleryProps) => {
   const { user } = useAppSelector<{
     user: UserType | null
     loggedIn: boolean
-    errors: null
+    errors: string | null
   }>((state) => state.user.value)
   const theme = useAppSelector<string>((state) => state.theme.value)
 
-  const viewArt = (imageData: ImageData): void => {
+  const viewArt = (imageData: string): void => {
     dispatch(openModal(imageData))
   }
 
@@ -32,7 +32,7 @@ const ImageGallery = ({ gallery, onRemove }: GalleryProps) => {
     <>
       {!gallery.length ? 'There is no any drawings yet.' : ''}
       <div className={styles[theme]}>
-        {gallery.map((doc: any) => (
+        {gallery.map((doc: DocumentData) => (
           <div key={doc.id} className={styles.artWrapper}>
             <img src={doc.data().imageData} alt={doc.id} />
             <div className={styles.actionsLayer}>

@@ -1,13 +1,22 @@
 type OnMouseDownType = {
-  e: MouseEvent
-  ctx: CanvasRenderingContext2D
+  e: React.MouseEvent
   canvasOffset: { top: number; left: number }
   setIsPainting: (payload: boolean) => void
+  ctx: CanvasRenderingContext2D | undefined
 }
 
 type StartPosition = {
   left: number
   top: number
+}
+
+type OnMouseMoveType = {
+  e: React.MouseEvent
+  ctx: CanvasRenderingContext2D | undefined
+  canvasOffset: { top: number; left: number }
+  isPainting: boolean
+  startDrawingPosition: { top: number; left: number }
+  canvasData: ImageData | undefined
 }
 
 const convertHexToRGBA = (
@@ -27,93 +36,94 @@ const convertHexToRGBA = (
 }
 
 export default {
-  onMouseDown: ({ e, ctx, canvasOffset }: OnMouseDownType): StartPosition => {
+  onMouseDown: ({ e, ctx, canvasOffset, setIsPainting }: OnMouseDownType): StartPosition => {
     const start: StartPosition = {
       top: e.pageY - canvasOffset.top,
       left: e.pageX - canvasOffset.left,
     }
-    const pixelStack: number[][] = [[start.left, start.top]]
-    const dataImage: ImageData = ctx.getImageData(0, 0, 760, 480)
-    const fillColor: { r: number; g: number; b: number; a: number } = convertHexToRGBA(ctx.fillStyle)
-    const startPixel: ImageData = ctx.getImageData(start.left, start.top, 1, 1)
 
-    function colorPixel(pixelPos: number): void {
+    function colorPixel(pixelPos: number, dataImage: ImageData, fillColor: { r: number; g: number; b: number }): void {
       dataImage.data[pixelPos] = fillColor.r
       dataImage.data[pixelPos + 1] = fillColor.g
       dataImage.data[pixelPos + 2] = fillColor.b
       dataImage.data[pixelPos + 3] = 255
     }
 
-    function matchStartColor(pixelPos: number): boolean {
+    function matchStartColor(pixelPos: number, dataImage: ImageData, startPixel: ImageData): boolean {
       const r: number = dataImage.data[pixelPos]
       const g: number = dataImage.data[pixelPos + 1]
       const b: number = dataImage.data[pixelPos + 2]
       return r === startPixel.data[0] && g === startPixel.data[1] && b === startPixel.data[2]
     }
 
-    let pixelPosition: number = (start.left + start.top * 760) * 4
+    if (ctx) {
+      const pixelStack: number[][] = [[start.left, start.top]]
+      const dataImage: ImageData = ctx.getImageData(0, 0, 760, 480)
+      const fillColor: { r: number; g: number; b: number; a: number } = convertHexToRGBA(ctx.fillStyle)
+      const startPixel: ImageData = ctx.getImageData(start.left, start.top, 1, 1)
 
-    if (
-      dataImage.data[pixelPosition] === fillColor.r &&
-      dataImage.data[pixelPosition + 1] === fillColor.g &&
-      dataImage.data[pixelPosition + 2] === fillColor.b
-    ) {
-      return start
-    }
+      let pixelPosition: number = (start.left + start.top * 760) * 4
 
-    while (pixelStack.length) {
-      const coord: number[] | undefined = pixelStack.pop()
-      let y: number = 0
-      let x: number = 0
-      if (coord?.length) {
-        y = coord[1]
-        x = coord[0]
-      }
-      pixelPosition = (x + y * 760) * 4
-
-      while (y > 0 && matchStartColor(pixelPosition)) {
-        y -= 1
-        pixelPosition -= 760 * 4
+      if (
+        dataImage.data[pixelPosition] === fillColor.r &&
+        dataImage.data[pixelPosition + 1] === fillColor.g &&
+        dataImage.data[pixelPosition + 2] === fillColor.b
+      ) {
+        return start
       }
 
-      y += 1
-      pixelPosition += 760 * 4
-
-      let reachLeft: boolean = false
-      let reachRight: boolean = false
-
-      while (y < 480 && matchStartColor(pixelPosition)) {
-        colorPixel(pixelPosition)
-
-        if (x > 0 && matchStartColor(pixelPosition - 4)) {
-          if (!reachLeft) {
-            pixelStack.push([x - 1, y])
-            reachLeft = true
-          }
-        } else if (reachLeft) {
-          reachLeft = false
+      while (pixelStack.length) {
+        const coord: number[] | undefined = pixelStack.pop()
+        let y: number = 0
+        let x: number = 0
+        if (coord?.length) {
+          y = coord[1]
+          x = coord[0]
         }
+        pixelPosition = (x + y * 760) * 4
 
-        if (x < 760 && matchStartColor(pixelPosition + 4)) {
-          if (!reachRight) {
-            pixelStack.push([x + 1, y])
-            reachRight = true
-          }
-        } else if (reachRight) {
-          reachRight = false
+        while (y > 0 && matchStartColor(pixelPosition, dataImage, startPixel)) {
+          y -= 1
+          pixelPosition -= 760 * 4
         }
 
         y += 1
         pixelPosition += 760 * 4
-      }
 
-      ctx.putImageData(dataImage, 0, 0)
+        let reachLeft: boolean = false
+        let reachRight: boolean = false
+
+        while (y < 480 && matchStartColor(pixelPosition, dataImage, startPixel)) {
+          colorPixel(pixelPosition, dataImage, fillColor)
+
+          if (x > 0 && matchStartColor(pixelPosition - 4, dataImage, startPixel)) {
+            if (!reachLeft) {
+              pixelStack.push([x - 1, y])
+              reachLeft = true
+            }
+          } else if (reachLeft) {
+            reachLeft = false
+          }
+
+          if (x < 760 && matchStartColor(pixelPosition + 4, dataImage, startPixel)) {
+            if (!reachRight) {
+              pixelStack.push([x + 1, y])
+              reachRight = true
+            }
+          } else if (reachRight) {
+            reachRight = false
+          }
+
+          y += 1
+          pixelPosition += 760 * 4
+        }
+
+        ctx.putImageData(dataImage, 0, 0)
+      }
     }
 
     return start
   },
 
-  onMouseMove: (): void => {},
-
-  onMouseUp: (): void => {},
+  onMouseMove: ({ e, ctx, canvasOffset, isPainting, startDrawingPosition, canvasData }: OnMouseMoveType): void => {},
 }

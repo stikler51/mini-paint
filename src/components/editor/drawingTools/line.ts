@@ -1,21 +1,21 @@
 type OnMouseDownType = {
-  e: MouseEvent
+  e: React.MouseEvent
   canvasOffset: { top: number; left: number }
   setIsPainting: (payload: boolean) => void
-  ctx?: CanvasRenderingContext2D
+  ctx: CanvasRenderingContext2D | undefined
 }
 
 type OnMouseMoveType = {
-  e: MouseEvent
-  ctx: CanvasRenderingContext2D
+  e: React.MouseEvent
+  ctx: CanvasRenderingContext2D | undefined
   canvasOffset: { top: number; left: number }
   isPainting: boolean
   startDrawingPosition: { top: number; left: number }
-  canvasData: ImageData
+  canvasData: ImageData | undefined
 }
 
 export default {
-  onMouseDown: ({ e, canvasOffset, setIsPainting }: OnMouseDownType): { top: number; left: number } => {
+  onMouseDown: ({ e, canvasOffset, setIsPainting, ctx }: OnMouseDownType): { top: number; left: number } => {
     setIsPainting(true)
     return {
       top: e.pageY - canvasOffset.top,
@@ -24,7 +24,7 @@ export default {
   },
 
   onMouseMove: ({ e, ctx, canvasOffset, isPainting, startDrawingPosition, canvasData }: OnMouseMoveType): void => {
-    if (isPainting) {
+    if (isPainting && ctx && canvasData) {
       const finishPos: { x: number; y: number } = {
         x: e.pageX - canvasOffset.left,
         y: e.pageY - canvasOffset.top,
@@ -36,9 +36,5 @@ export default {
       ctx.lineTo(finishPos.x, finishPos.y)
       ctx.stroke()
     }
-  },
-
-  onMouseUp: (setIsPainting: (payload: boolean) => void) => {
-    setIsPainting(false)
   },
 }

@@ -1,3 +1,4 @@
+import { DocumentData, QueryDocumentSnapshot } from '@firebase/firestore'
 import React, { useEffect, useState } from 'react'
 import { getAllUsers } from '../../firebase/db'
 
@@ -6,12 +7,12 @@ type FilterProps = {
 }
 
 const FilterByUser = ({ onFilter }: FilterProps) => {
-  const [users, setUsers] = useState<any[]>([])
+  const [users, setUsers] = useState<DocumentData[]>([])
 
   useEffect(() => {
-    getAllUsers().then((data) => {
-      setUsers(data)
-      console.log(typeof data)
+    getAllUsers().then((data: QueryDocumentSnapshot<DocumentData>[]) => {
+      const usersData: DocumentData[] = data.map((user) => user.data())
+      setUsers(usersData)
     })
   }, [])
 
@@ -29,9 +30,9 @@ const FilterByUser = ({ onFilter }: FilterProps) => {
         onChange={(e) => changeHandler(e.currentTarget.value)}
       />
       <datalist id="users">
-        {users.map((user: any) => (
-          <option key={user.data().email} value={user.data().email}>
-            {user.data().email}
+        {users.map((user: DocumentData) => (
+          <option key={user.email} value={user.email}>
+            {user.email}
           </option>
         ))}
       </datalist>

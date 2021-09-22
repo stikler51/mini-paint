@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react'
+import React, { useRef, useEffect, useState, MouseEvent } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import { useAppSelector, useAppDispatch } from '../../../store/hooks'
 import { pushActionInHistory, createNewArt } from '../../../store/artSlice'
@@ -15,14 +15,31 @@ type ToolOnMouseDown = {
   e: MouseEvent
   canvasOffset: { top: number; left: number }
   setIsPainting: (payload: boolean) => void
-  ctx?: CanvasRenderingContext2D
+  ctx: CanvasRenderingContext2D | undefined
+}
+
+type ToolOnMouseMove = {
+  e: MouseEvent
+  ctx: CanvasRenderingContext2D | undefined
+  canvasOffset: { top: number; left: number }
+  isPainting: boolean
+  startDrawingPosition: { top: number; left: number }
+  canvasData: ImageData | undefined
+}
+
+type Tool = {
+  [key: string]: {
+    onMouseDown: ({ e, ctx, canvasOffset, setIsPainting }: ToolOnMouseDown) => { top: number; left: number }
+    onMouseMove: ({ e, ctx, canvasOffset, isPainting, startDrawingPosition, canvasData }: ToolOnMouseMove) => void
+    // onMouseUp: ({}: any) => void
+  }
 }
 
 const DrawingArea = () => {
   const canvas = useRef<HTMLCanvasElement | null>(null)
-  const [isPainting, setIsPainting] = useState<boolean | null>(false) // indicator when mouse left button is pressed
-  const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null) // canvas context
-  const [canvasData, setCanvasData] = useState<ImageData | null>(null)
+  const [isPainting, setIsPainting] = useState<boolean>(false) // indicator when mouse left button is pressed
+  const [ctx, setCtx] = useState<CanvasRenderingContext2D | undefined>() // canvas context
+  const [canvasData, setCanvasData] = useState<ImageData | undefined>()
   // canvas left top corner position
   const [canvasOffset, setCanvasOffset] = useState<{ left: number; top: number }>({ left: 0, top: 0 })
   // position of pixel, where drawing is started
@@ -43,7 +60,7 @@ const DrawingArea = () => {
   const dispatch = useAppDispatch()
 
   // TODO: add type
-  const tools: any = {
+  const tools: Tool = {
     pen,
     rectangle,
     ellipse,
@@ -119,7 +136,7 @@ const DrawingArea = () => {
 
   // Every tool has 3 methods : onMouseDown, onMouseMove, onMouseUp
 
-  const onMouseDown = (e: React.MouseEvent<HTMLCanvasElement, MouseEvent>): void => {
+  const onMouseDown = (e: MouseEvent): void => {
     // Different tools requires different params, so here all needed params for
     // all tools passed as object. And every tool using only needed for it values
     const startPosition = tools[activeTool].onMouseDown({ e, ctx, canvasOffset, setIsPainting }) // get pixel where user started paint
@@ -131,7 +148,7 @@ const DrawingArea = () => {
     }
   }
 
-  const onMouseMove = (e: React.MouseEvent<HTMLCanvasElement, MouseEvent>): void => {
+  const onMouseMove = (e: MouseEvent): void => {
     // Different tools requires different params, so here all needed params for
     // all tools passed as object. And every tool using only needed for it values
     tools[activeTool].onMouseMove({ e, ctx, canvasOffset, isPainting, startDrawingPosition, canvasData })
@@ -141,14 +158,18 @@ const DrawingArea = () => {
     // tools[activeTool].onMouseUp(setIsPainting);
     setIsPainting(false)
     // saving changes to history on every paint action
-    dispatch(pushActionInHistory(canvas.current?.toDataURL()))
+    if (canvas && canvas.current) {
+      dispatch(pushActionInHistory(canvas.current.toDataURL()))
+    }
   }
 
   // stop painting if mouse leave canvas area
   const onMouseLeave = () => {
     if (isPainting) {
       setIsPainting(false)
-      dispatch(pushActionInHistory(canvas.current?.toDataURL()))
+      if (canvas && canvas.current) {
+        dispatch(pushActionInHistory(canvas.current.toDataURL()))
+      }
     }
   }
 

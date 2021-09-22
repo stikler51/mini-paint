@@ -1,21 +1,21 @@
 type OnMouseDownType = {
-  e: MouseEvent
+  e: React.MouseEvent
   canvasOffset: { top: number; left: number }
   setIsPainting: (payload: boolean) => void
-  ctx?: CanvasRenderingContext2D
+  ctx: CanvasRenderingContext2D | undefined
 }
 
 type OnMouseMoveType = {
-  e: MouseEvent
-  ctx: CanvasRenderingContext2D
+  e: React.MouseEvent
+  ctx: CanvasRenderingContext2D | undefined
   canvasOffset: { top: number; left: number }
   isPainting: boolean
   startDrawingPosition: { top: number; left: number }
-  canvasData: ImageData
+  canvasData: ImageData | undefined
 }
 
 export default {
-  onMouseDown: ({ e, canvasOffset, setIsPainting }: OnMouseDownType): { top: number; left: number } => {
+  onMouseDown: ({ e, canvasOffset, setIsPainting, ctx }: OnMouseDownType): { top: number; left: number } => {
     setIsPainting(true)
     return {
       top: e.pageY - canvasOffset.top,
@@ -24,7 +24,7 @@ export default {
   },
 
   onMouseMove: ({ e, ctx, canvasOffset, isPainting, startDrawingPosition, canvasData }: OnMouseMoveType): void => {
-    if (isPainting) {
+    if (isPainting && ctx && canvasData) {
       const radiusX: number = Math.round((e.pageX - canvasOffset.left - startDrawingPosition.left) / 2)
       const radiusY: number = Math.round((e.pageY - canvasOffset.top - startDrawingPosition.top) / 2)
       ctx.clearRect(0, 0, 760, 480)
@@ -60,9 +60,5 @@ export default {
       }
       ctx.stroke()
     }
-  },
-
-  onMouseUp: (setIsPainting: (payload: boolean) => void) => {
-    setIsPainting(false)
   },
 }

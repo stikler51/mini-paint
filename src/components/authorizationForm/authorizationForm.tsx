@@ -11,7 +11,6 @@ type PropsType = {
 type UserObjectType = {
   email: string
   uid: string
-  accessToken: string
 }
 
 type UserType = {

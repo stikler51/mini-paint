@@ -7,7 +7,6 @@ import styles from './header.module.scss'
 type UserType = {
   email: string
   uid: string
-  accessToken: string
 }
 
 type UserStateType = {
