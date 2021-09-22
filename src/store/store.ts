@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit'
-import userReduser from './userSlice'
+import userReducer from './userSlice'
 import loadingReducer from './loadingSlice'
 import toolReducer from './toolSlice'
 import artReducer from './artSlice'
@@ -8,7 +8,7 @@ import themeReducer from './themeSlice'
 
 const store = configureStore({
   reducer: {
-    user: userReduser,
+    user: userReducer,
     loading: loadingReducer,
     tool: toolReducer,
     art: artReducer,

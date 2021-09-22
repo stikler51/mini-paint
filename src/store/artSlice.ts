@@ -1,5 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit'
 
+type State = {
+  value: {
+    artHistory: string[]
+    currentPosition: number
+    manualChanging: boolean
+  }
+}
+
 // used for saving art change history (undo/redo actions)
 // artHistory - array of Base64 strings images
 export const artSlice = createSlice({
@@ -10,16 +18,16 @@ export const artSlice = createSlice({
       currentPosition: 0,
       manualChanging: false,
     },
-  },
+  } as State,
   reducers: {
-    createNewArt: (state) => {
+    createNewArt: (state: State) => {
       state.value = {
         artHistory: [],
         currentPosition: state.value.currentPosition,
         manualChanging: false,
       }
     },
-    pushActionInHistory: (state: any, action) => {
+    pushActionInHistory: (state: State, action: { payload: string }) => {
       const oldState = [...state.value.artHistory]
       // maximum history stack size = 20
       // if need to change, change here and in components/editor/historyActions/historyPanel.tsx
@@ -33,14 +41,14 @@ export const artSlice = createSlice({
         manualChanging: false,
       }
     },
-    prevArtState: (state) => {
+    prevArtState: (state: State) => {
       state.value = {
         artHistory: [...state.value.artHistory],
         currentPosition: state.value.currentPosition - 1,
         manualChanging: true,
       }
     },
-    nextArtState: (state) => {
+    nextArtState: (state: State) => {
       state.value = {
         artHistory: [...state.value.artHistory],
         currentPosition: state.value.currentPosition + 1,
