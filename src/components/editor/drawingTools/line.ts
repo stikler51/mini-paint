@@ -1,21 +1,7 @@
-type OnMouseDownType = {
-  e: React.MouseEvent
-  canvasOffset: { top: number; left: number }
-  setIsPainting: (payload: boolean) => void
-  ctx: CanvasRenderingContext2D | undefined
-}
-
-type OnMouseMoveType = {
-  e: React.MouseEvent
-  ctx: CanvasRenderingContext2D | undefined
-  canvasOffset: { top: number; left: number }
-  isPainting: boolean
-  startDrawingPosition: { top: number; left: number }
-  canvasData: ImageData | undefined
-}
+import { ToolOnMouseDown, ToolOnMouseMove, SinglePixel } from '../../../types/types'
 
 export default {
-  onMouseDown: ({ e, canvasOffset, setIsPainting, ctx }: OnMouseDownType): { top: number; left: number } => {
+  onMouseDown: ({ e, canvasOffset, setIsPainting, ctx }: ToolOnMouseDown): SinglePixel => {
     setIsPainting(true)
     return {
       top: e.pageY - canvasOffset.top,
@@ -23,7 +9,7 @@ export default {
     }
   },
 
-  onMouseMove: ({ e, ctx, canvasOffset, isPainting, startDrawingPosition, canvasData }: OnMouseMoveType): void => {
+  onMouseMove: ({ e, ctx, canvasOffset, isPainting, startDrawingPosition, canvasData }: ToolOnMouseMove): void => {
     if (isPainting && ctx && canvasData) {
       const finishPos: { x: number; y: number } = {
         x: e.pageX - canvasOffset.left,

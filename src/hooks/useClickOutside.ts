@@ -1,10 +1,8 @@
 import { RefObject, useEffect } from 'react'
 
-type AnyEvent = MouseEvent | TouchEvent
-
 function useClickOutside<T extends HTMLElement = HTMLElement>(ref: RefObject<T>, handler: () => void): void {
   useEffect(() => {
-    const listener = (event: AnyEvent): void => {
+    const listener = (event: MouseEvent | TouchEvent): void => {
       const el: HTMLElement | null = ref?.current
 
       // Do nothing if clicking ref's element or descendent elements

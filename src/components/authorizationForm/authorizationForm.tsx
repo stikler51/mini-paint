@@ -2,22 +2,23 @@ import React, { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useAppSelector } from '../../store/hooks'
 import styles from './authorizationForm.module.scss'
+import { UserReduxSliceType } from '../../types/types'
 
 type PropsType = {
   cb: (mail: string, pass: string) => void // Fn for authorization or registration
   action: string
 }
 
-type UserObjectType = {
-  email: string
-  uid: string
-}
+// type UserObjectType = {
+//   email: string
+//   uid: string
+// }
 
-type UserType = {
-  user: null | UserObjectType
-  loggedIn: boolean
-  errors: string | null
-}
+// type UserType = {
+//   user: null | UserObjectType
+//   loggedIn: boolean
+//   errors: string | null
+// }
 
 // component used for authorization and registration actions
 const AuthorizationForm = ({ cb, action }: PropsType) => {
@@ -27,7 +28,7 @@ const AuthorizationForm = ({ cb, action }: PropsType) => {
   // needed for applying right action to form (authorization or registration)
   const { pathname } = useLocation<string>()
 
-  const user: UserType = useAppSelector((state) => state.user.value)
+  const user: UserReduxSliceType = useAppSelector((state) => state.user.value)
   const theme: string = useAppSelector((state) => state.theme.value)
 
   return (

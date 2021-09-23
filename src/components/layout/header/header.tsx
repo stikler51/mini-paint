@@ -3,19 +3,10 @@ import { NavLink } from 'react-router-dom'
 import { useAppSelector } from '../../../store/hooks'
 import { signOutUser } from '../../../firebase/auth'
 import styles from './header.module.scss'
-
-type UserType = {
-  email: string
-  uid: string
-}
-
-type UserStateType = {
-  loggedIn: boolean
-  user: UserType | null
-}
+import { UserReduxSliceType } from '../../../types/types'
 
 const Header = () => {
-  const { loggedIn, user } = useAppSelector<UserStateType>((state) => state.user.value)
+  const { loggedIn, user } = useAppSelector<UserReduxSliceType>((state) => state.user.value)
   const theme = useAppSelector<string>((state) => state.theme.value)
   return (
     <header className={`${styles[theme]}`}>

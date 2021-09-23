@@ -1,20 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit'
-
-type State = {
-  value: boolean
-}
+import { LoadingReduxState } from '../types/types'
 
 // used for displaying loading indicator
 export const loadingSlice = createSlice({
   name: 'loading',
   initialState: {
     value: true,
-  } as State,
+  } as LoadingReduxState,
   reducers: {
-    startLoading: (state: State) => {
+    startLoading: (state: LoadingReduxState) => {
       state.value = true
     },
-    stopLoading: (state: State) => {
+    stopLoading: (state: LoadingReduxState) => {
       state.value = false
     },
   },

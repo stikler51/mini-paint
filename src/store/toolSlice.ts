@@ -1,12 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-
-type State = {
-  value: {
-    activeTool: string
-    color: string
-    lineWidth: number
-  }
-}
+import { ToolReduxState } from '../types/types'
 
 // used for setting up tools
 export const toolSlice = createSlice({
@@ -17,23 +10,23 @@ export const toolSlice = createSlice({
       color: '#000000',
       lineWidth: 1,
     },
-  } as State,
+  } as ToolReduxState,
   reducers: {
-    enableTool: (state: State, action: { payload: string }) => {
+    enableTool: (state: ToolReduxState, action: { payload: string }) => {
       state.value = {
         activeTool: action.payload,
         color: state.value.color,
         lineWidth: state.value.lineWidth,
       }
     },
-    setColor: (state: State, action: { payload: string }) => {
+    setColor: (state: ToolReduxState, action: { payload: string }) => {
       state.value = {
         activeTool: state.value.activeTool,
         color: action.payload,
         lineWidth: state.value.lineWidth,
       }
     },
-    setLineWidth: (state: State, action: { payload: number }) => {
+    setLineWidth: (state: ToolReduxState, action: { payload: number }) => {
       state.value = {
         activeTool: state.value.activeTool,
         color: state.value.color,

@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, MouseEvent } from 'react'
+import React, { useRef, useEffect, useState } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import { useAppSelector, useAppDispatch } from '../../../store/hooks'
 import { pushActionInHistory, createNewArt } from '../../../store/artSlice'
@@ -10,29 +10,7 @@ import line from '../drawingTools/line'
 import bucket from '../drawingTools/paintBucket'
 import eraser from '../drawingTools/eraser'
 import { saveArt, getOneArt, updateArt } from '../../../firebase/db'
-
-type ToolOnMouseDown = {
-  e: MouseEvent
-  canvasOffset: { top: number; left: number }
-  setIsPainting: (payload: boolean) => void
-  ctx: CanvasRenderingContext2D | undefined
-}
-
-type ToolOnMouseMove = {
-  e: MouseEvent
-  ctx: CanvasRenderingContext2D | undefined
-  canvasOffset: { top: number; left: number }
-  isPainting: boolean
-  startDrawingPosition: { top: number; left: number }
-  canvasData: ImageData | undefined
-}
-
-type Tool = {
-  [key: string]: {
-    onMouseDown: ({ e, ctx, canvasOffset, setIsPainting }: ToolOnMouseDown) => { top: number; left: number }
-    onMouseMove: ({ e, ctx, canvasOffset, isPainting, startDrawingPosition, canvasData }: ToolOnMouseMove) => void
-  }
-}
+import { Tool, SinglePixel, ToolReduxSliceType, ArtReduxSliceType } from '../../../types/types'
 
 const DrawingArea = () => {
   const canvas = useRef<HTMLCanvasElement | null>(null)
@@ -40,25 +18,18 @@ const DrawingArea = () => {
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | undefined>() // canvas context
   const [canvasData, setCanvasData] = useState<ImageData | undefined>()
   // canvas left top corner position
-  const [canvasOffset, setCanvasOffset] = useState<{ left: number; top: number }>({ left: 0, top: 0 })
+  const [canvasOffset, setCanvasOffset] = useState<SinglePixel>({ left: 0, top: 0 })
   // position of pixel, where drawing is started
-  const [startDrawingPosition, setStartDrawingPosition] = useState<{ left: number; top: number }>({ left: 0, top: 0 })
+  const [startDrawingPosition, setStartDrawingPosition] = useState<SinglePixel>({ left: 0, top: 0 })
   const { artId } = useParams<{ artId: string }>() // id of image from url string
   const history = useHistory<History>()
   // active tool and tool settings from redux store
-  const { activeTool, color, lineWidth } = useAppSelector<{ activeTool: string; color: string; lineWidth: number }>(
-    (state) => state.tool.value,
-  )
+  const { activeTool, color, lineWidth } = useAppSelector<ToolReduxSliceType>((state) => state.tool.value)
   const theme = useAppSelector<string>((state) => state.theme.value) // active theme
   // history of changing image from redux store
-  const { currentPosition, artHistory, manualChanging } = useAppSelector<{
-    currentPosition: number
-    artHistory: string[]
-    manualChanging: boolean
-  }>((state) => state.art.value)
+  const { currentPosition, artHistory, manualChanging } = useAppSelector<ArtReduxSliceType>((state) => state.art.value)
   const dispatch = useAppDispatch()
 
-  // TODO: add type
   const tools: Tool = {
     pen,
     rectangle,
@@ -133,9 +104,9 @@ const DrawingArea = () => {
     }
   }, [currentPosition])
 
-  // Every tool has 3 methods : onMouseDown, onMouseMove, onMouseUp
+  // Every tool has 2 methods : onMouseDown, onMouseMove
 
-  const onMouseDown = (e: MouseEvent): void => {
+  const onMouseDown = (e: React.MouseEvent): void => {
     // Different tools requires different params, so here all needed params for
     // all tools passed as object. And every tool using only needed for it values
     const startPosition = tools[activeTool].onMouseDown({ e, ctx, canvasOffset, setIsPainting }) // get pixel where user started paint
@@ -147,7 +118,7 @@ const DrawingArea = () => {
     }
   }
 
-  const onMouseMove = (e: MouseEvent): void => {
+  const onMouseMove = (e: React.MouseEvent): void => {
     // Different tools requires different params, so here all needed params for
     // all tools passed as object. And every tool using only needed for it values
     tools[activeTool].onMouseMove({ e, ctx, canvasOffset, isPainting, startDrawingPosition, canvasData })

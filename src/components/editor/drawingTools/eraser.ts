@@ -1,21 +1,7 @@
-type OnMouseDownType = {
-  e: React.MouseEvent
-  canvasOffset: { top: number; left: number }
-  setIsPainting: (payload: boolean) => void
-  ctx: CanvasRenderingContext2D | undefined
-}
-
-type OnMouseMoveType = {
-  e: React.MouseEvent
-  ctx: CanvasRenderingContext2D | undefined
-  canvasOffset: { top: number; left: number }
-  isPainting: boolean
-  startDrawingPosition: { top: number; left: number }
-  canvasData: ImageData | undefined
-}
+import { ToolOnMouseDown, ToolOnMouseMove, SinglePixel } from '../../../types/types'
 
 export default {
-  onMouseDown: ({ e, ctx, canvasOffset, setIsPainting }: OnMouseDownType): { top: number; left: number } => {
+  onMouseDown: ({ e, ctx, canvasOffset, setIsPainting }: ToolOnMouseDown): SinglePixel => {
     if (ctx) {
       ctx.strokeStyle = '#FFFFFF'
       setIsPainting(true)
@@ -25,7 +11,7 @@ export default {
     return { top: 0, left: 0 }
   },
 
-  onMouseMove: ({ e, ctx, canvasOffset, isPainting, startDrawingPosition, canvasData }: OnMouseMoveType): void => {
+  onMouseMove: ({ e, ctx, canvasOffset, isPainting, startDrawingPosition, canvasData }: ToolOnMouseMove): void => {
     if (isPainting && ctx) {
       ctx.lineTo(e.pageX - canvasOffset.left, e.pageY - canvasOffset.top)
       ctx.stroke()

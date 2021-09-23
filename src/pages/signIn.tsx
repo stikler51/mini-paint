@@ -3,6 +3,7 @@ import { Route, Redirect } from 'react-router'
 import { useAppSelector } from '../store/hooks'
 import AuthorizationForm from '../components/authorizationForm/authorizationForm'
 import { authorizeUser } from '../firebase/auth'
+import { RouteProps, UserReduxSliceType } from '../types/types'
 
 const SignIn = () => (
   <>
@@ -11,12 +12,8 @@ const SignIn = () => (
   </>
 )
 
-type RouteProps = {
-  path: string
-}
-
 export const SignInRoute = ({ path }: RouteProps) => {
-  const { loggedIn } = useAppSelector<{ loggedIn: boolean }>((state) => state.user.value)
+  const { loggedIn } = useAppSelector<UserReduxSliceType>((state) => state.user.value)
   return <Route path={path}>{loggedIn ? <Redirect to="/user" /> : <SignIn />}</Route>
 }
 

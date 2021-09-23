@@ -4,20 +4,11 @@ import { useAppSelector } from '../store/hooks'
 import ImageGallery from '../components/imageGallery/imageGallery'
 import { getAllArtsByUser, deleteArt } from '../firebase/db'
 import { DocumentData, QueryDocumentSnapshot } from '@firebase/firestore'
-
-type UserType = {
-  email: string
-  uid: string
-}
-
-type UserStateType = {
-  loggedIn: boolean
-  user: UserType | null
-}
+import { RouteProps, UserReduxSliceType } from '../types/types'
 
 const User = () => {
   const [gallery, setGallery] = useState<DocumentData[]>([])
-  const { user } = useAppSelector<UserStateType>((state) => state.user.value)
+  const { user } = useAppSelector<UserReduxSliceType>((state) => state.user.value)
 
   useEffect(() => {
     if (user) {
@@ -53,12 +44,8 @@ const User = () => {
   )
 }
 
-type routeProps = {
-  path: string
-}
-
-export const UserRoute = ({ path }: routeProps) => {
-  const { loggedIn } = useAppSelector<{ loggedIn: boolean }>((state) => state.user.value)
+export const UserRoute = ({ path }: RouteProps) => {
+  const { loggedIn } = useAppSelector<UserReduxSliceType>((state) => state.user.value)
   return <Route path={path}>{loggedIn ? <User /> : <Redirect to="/signin" />}</Route>
 }
 

@@ -1,11 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-
-type State = {
-  value: {
-    isOpen: boolean
-    data: string
-  }
-}
+import { ModalReduxState } from '../types/types'
 
 // using for displaying modal windows
 export const modalSlice = createSlice({
@@ -15,15 +9,15 @@ export const modalSlice = createSlice({
       isOpen: false,
       data: '',
     },
-  } as State,
+  } as ModalReduxState,
   reducers: {
-    openModal: (state: State, action: { payload: string }) => {
+    openModal: (state: ModalReduxState, action: { payload: string }) => {
       state.value = {
         isOpen: true,
         data: action.payload,
       }
     },
-    closeModal: (state: State) => {
+    closeModal: (state: ModalReduxState) => {
       state.value = {
         isOpen: false,
         data: '',

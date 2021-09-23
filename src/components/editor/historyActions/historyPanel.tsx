@@ -2,11 +2,10 @@ import React, { useEffect } from 'react'
 import { useAppSelector, useAppDispatch } from '../../../store/hooks'
 import { prevArtState, nextArtState } from '../../../store/artSlice'
 import styles from '../toolPanel/toolPanel.module.scss'
+import { ArtReduxSliceType } from '../../../types/types'
 
 const HistoryPanel = () => {
-  const { currentPosition, artHistory } = useAppSelector<{ currentPosition: number; artHistory: string[] }>(
-    (state) => state.art.value,
-  )
+  const { currentPosition, artHistory } = useAppSelector<ArtReduxSliceType>((state) => state.art.value)
   const theme = useAppSelector<string>((state) => state.theme.value)
   const dispatch = useAppDispatch()
   // maximum history stack size = 20

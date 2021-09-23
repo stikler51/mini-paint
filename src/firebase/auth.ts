@@ -4,17 +4,13 @@ import store from '../store/store'
 import { login, logout, setError } from '../store/userSlice'
 import { startLoading, stopLoading } from '../store/loadingSlice'
 import { saveUser } from './db'
-
-type User = {
-  uid: string
-  email: string
-}
+import { UserObjectType } from '../types/types'
 
 // Changing redux user state on every login/logout event
 onAuthStateChanged(auth, (user) => {
   if (user) {
     store.dispatch(stopLoading())
-    store.dispatch(login({ uid: user.uid, email: user.email } as User))
+    store.dispatch(login({ uid: user.uid, email: user.email } as UserObjectType))
     // Saving loggedIn state in session storage because of
     // when user is authorized and page is reloading,
     // /editor page redirects to /signin page

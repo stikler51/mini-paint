@@ -1,17 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-
-type User = {
-  uid: string
-  email: string
-}
-
-type State = {
-  value: {
-    user: null | User
-    loggedIn: boolean
-    errors: string | null
-  }
-}
+import { UserReduxState, UserObjectType } from '../types/types'
 
 // used for keeping information about authorized user and authorization errors
 export const userSlice = createSlice({
@@ -22,23 +10,23 @@ export const userSlice = createSlice({
       loggedIn: false,
       errors: null,
     },
-  } as State,
+  } as UserReduxState,
   reducers: {
-    login: (state: State, action: { payload: null | User }) => {
+    login: (state: UserReduxState, action: { payload: null | UserObjectType }) => {
       state.value = {
         user: action.payload,
         loggedIn: true,
         errors: state.value.errors,
       }
     },
-    logout: (state: State) => {
+    logout: (state: UserReduxState) => {
       state.value = {
         user: null,
         loggedIn: false,
         errors: state.value.errors,
       }
     },
-    setError: (state: State, action: { payload: string | null }) => {
+    setError: (state: UserReduxState, action: { payload: string | null }) => {
       state.value.errors = action.payload
     },
   },

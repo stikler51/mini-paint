@@ -3,8 +3,9 @@ import { useAppSelector, useAppDispatch } from '../../../store/hooks'
 import { enableTool, setColor, setLineWidth } from '../../../store/toolSlice'
 import styles from './toolPanel.module.scss'
 import useClickOutside from '../../../hooks/useClickOutside'
+import { ToolReduxSliceType, ToolButton } from '../../../types/types'
 
-const tools: { value: string; icon: string }[] = [
+const tools: ToolButton[] = [
   { value: 'pen', icon: '/icons/pen.svg' },
   { value: 'rectangle', icon: '/icons/rectangle.svg' },
   { value: 'ellipse', icon: '/icons/ellipse.svg' },
@@ -16,11 +17,7 @@ const tools: { value: string; icon: string }[] = [
 const ToolPanel = () => {
   const [openWidthButton, setOpenWidthButton] = useState<boolean | null>(false)
   const wrapperRef = useRef<HTMLDivElement>(null)
-  const { activeTool, color, lineWidth } = useAppSelector<{
-    activeTool: string
-    color: string
-    lineWidth: number
-  }>((state) => state.tool.value)
+  const { activeTool, color, lineWidth } = useAppSelector<ToolReduxSliceType>((state) => state.tool.value)
   const theme = useAppSelector<string>((state) => state.theme.value)
   const dispatch = useAppDispatch()
 

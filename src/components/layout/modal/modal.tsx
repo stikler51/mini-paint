@@ -3,14 +3,10 @@ import { useAppSelector, useAppDispatch } from '../../../store/hooks'
 import styles from './modal.module.scss'
 import { closeModal } from '../../../store/modalSlice'
 import useClickOutside from '../../../hooks/useClickOutside'
-
-type ModalType = {
-  isOpen: boolean
-  data: string
-}
+import { ModalReduxSliceType } from '../../../types/types'
 
 const Modal = () => {
-  const { isOpen, data } = useAppSelector<ModalType>((state) => state.modal.value)
+  const { isOpen, data } = useAppSelector<ModalReduxSliceType>((state) => state.modal.value)
   const dispatch = useAppDispatch()
   const modalRef = useRef<HTMLDivElement>(null)
 

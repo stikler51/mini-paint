@@ -10,7 +10,6 @@ const Gallery = () => {
 
   useEffect(() => {
     getAllArts().then((data: DocumentData[]) => {
-      console.log(data[0].id)
       setGallery(data)
     })
   }, [])

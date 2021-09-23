@@ -1,27 +1,19 @@
-import { DocumentData } from '@firebase/firestore'
 import React from 'react'
+import { DocumentData } from '@firebase/firestore'
 import { Link } from 'react-router-dom'
 import { useAppSelector, useAppDispatch } from '../../store/hooks'
 import { openModal } from '../../store/modalSlice'
 import styles from './imageGallery.module.scss'
+import { UserReduxSliceType } from '../../types/types'
 
 type GalleryProps = {
   gallery: DocumentData[]
   onRemove: (id: string) => void
 }
 
-type UserType = {
-  email: string
-  uid: string
-}
-
 const ImageGallery = ({ gallery, onRemove }: GalleryProps) => {
   const dispatch = useAppDispatch()
-  const { user } = useAppSelector<{
-    user: UserType | null
-    loggedIn: boolean
-    errors: string | null
-  }>((state) => state.user.value)
+  const { user } = useAppSelector<UserReduxSliceType>((state) => state.user.value)
   const theme = useAppSelector<string>((state) => state.theme.value)
 
   const viewArt = (imageData: string): void => {
