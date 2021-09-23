@@ -70,6 +70,8 @@ Your app is ready to be deployed!
 
 `/src/styles` - contains global styles
 
+`/src/types` - contains custom TS types
+
 ## Database snapshot
 
 In this project there are 2 collections: art and user. Collection art contains information about saved images and consists of next fields:
