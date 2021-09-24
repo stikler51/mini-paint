@@ -9,22 +9,10 @@ type PropsType = {
   action: string
 }
 
-// type UserObjectType = {
-//   email: string
-//   uid: string
-// }
-
-// type UserType = {
-//   user: null | UserObjectType
-//   loggedIn: boolean
-//   errors: string | null
-// }
-
 // component used for authorization and registration actions
 const AuthorizationForm = ({ cb, action }: PropsType) => {
   const [email, setEmail] = useState<string>('') // input email value
   const [password, setPassword] = useState<string>('') // input password value
-
   // needed for applying right action to form (authorization or registration)
   const { pathname } = useLocation<string>()
 
