@@ -38,6 +38,13 @@ It correctly bundles React in production mode and optimizes the build for the be
 The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
+### `npm run lint`
+
+Runs ESlint
+### `npm run format`
+
+Formats code with Prettier
+
 ## Features
 
 - Authorization and registration by E-mail
