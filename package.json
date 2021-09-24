@@ -9,8 +9,7 @@
     "@testing-library/user-event": "^12.8.3",
     "bootstrap": "^5.1.0",
     "firebase": "^9.0.1",
-    "husky": "^7.0.2",
-    "lint-staged": "^11.1.2",
+    "husky": "^4.3.8",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -28,19 +27,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "eslint --fix src/index.tsx",
-    "format": "prettier -w ."
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "npm run format",
-      "git add"
-    ]
+    "lint": "eslint **/*.{js,jsx,ts,tsx}",
+    "format": "prettier -w .",
+    "prepare": "husky install"
   },
   "eslintConfig": {
     "extends": [
@@ -77,6 +66,7 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.25.1",
     "eslint-plugin-react-hooks": "^4.2.0",
+    "lint-staged": "^11.1.2",
     "prettier": "^2.3.2",
     "webpack-cli": "^4.8.0"
   }
