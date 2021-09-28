@@ -3,14 +3,16 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import Header from './components/layout/header/header'
 import Home from './pages/home'
-import { SignInRoute } from './pages/signIn'
-import { RegisterRoute } from './pages/register'
-import { UserRoute } from './pages/user'
-import { EditorRoute } from './pages/editor'
+import SignIn from './pages/signIn'
+import Register from './pages/register'
+import User from './pages/user'
+import Editor from './pages/editor'
 import store from './store/store'
 import LoadingIndicator from './components/layout/loader/loader'
 import Modal from './components/layout/modal/modal'
 import Gallery from './pages/gallery'
+import PrivateRoute from './routes/privateRoute'
+import { Sign } from 'crypto'
 
 function App() {
   return (
@@ -20,11 +22,21 @@ function App() {
         <main className={store.getState().theme.value}>
           <div className="container">
             <Switch>
-              <SignInRoute path="/signin" />
-              <RegisterRoute path="/register" />
-              <UserRoute path="/user" />
-              <EditorRoute path="/editor/:artId" />
-              <EditorRoute path="/editor" />
+              <PrivateRoute path="/register" redirect="/user" inverse={true}>
+                <Register />
+              </PrivateRoute>
+              <PrivateRoute path="/signin" redirect="/user" inverse={true}>
+                <SignIn />
+              </PrivateRoute>
+              <PrivateRoute path="/user" redirect="/signin">
+                <User />
+              </PrivateRoute>
+              <PrivateRoute path="/editor/:artId" redirect="/signin">
+                <Editor />
+              </PrivateRoute>
+              <PrivateRoute path="/editor" redirect="/signin">
+                <Editor />
+              </PrivateRoute>
               <Route path="/gallery">
                 <Gallery />
               </Route>

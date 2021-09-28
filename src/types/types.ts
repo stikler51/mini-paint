@@ -1,3 +1,5 @@
+import { ReactChild } from 'react'
+
 export type UserObjectType = {
   email: string
   uid: string
@@ -96,6 +98,13 @@ export type ToolButton = {
 
 export type RouteProps = {
   path: string
+}
+
+export type PrivateRouteProps = {
+  path: string
+  redirect: string
+  children: JSX.Element
+  inverse?: boolean // defines inverse render logic
 }
 
 export type AuthorizationFormInputs = {
