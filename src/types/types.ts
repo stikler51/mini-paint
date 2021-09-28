@@ -97,3 +97,8 @@ export type ToolButton = {
 export type RouteProps = {
   path: string
 }
+
+export type AuthorizationFormInputs = {
+  email: string
+  password: string
+}

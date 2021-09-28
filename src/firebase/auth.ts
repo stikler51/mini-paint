@@ -4,7 +4,7 @@ import store from '../store/store'
 import { login, logout, setError } from '../store/userSlice'
 import { startLoading, stopLoading } from '../store/loadingSlice'
 import { saveUser } from './db'
-import { UserObjectType } from '../types/types'
+import { UserObjectType, AuthorizationFormInputs } from '../types/types'
 
 // Changing redux user state on every login/logout event
 onAuthStateChanged(auth, (user) => {
@@ -24,7 +24,7 @@ onAuthStateChanged(auth, (user) => {
   store.dispatch(setError(null))
 })
 
-export const authorizeUser = (email: string, password: string): void => {
+export const authorizeUser = ({ email, password }: AuthorizationFormInputs): void => {
   store.dispatch(startLoading())
   signInWithEmailAndPassword(auth, email, password)
     .then(() => {
@@ -36,7 +36,7 @@ export const authorizeUser = (email: string, password: string): void => {
     })
 }
 
-export const registerUser = (email: string, password: string): string | void => {
+export const registerUser = ({ email, password }: AuthorizationFormInputs): string | void => {
   store.dispatch(startLoading())
   createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {

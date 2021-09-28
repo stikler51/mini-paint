@@ -8,7 +8,7 @@ import { RouteProps, UserReduxSliceType } from '../types/types'
 const SignIn = () => (
   <>
     <h1>Sign in page</h1>
-    <AuthorizationForm cb={authorizeUser} action="Sign In" />
+    <AuthorizationForm onSubmit={authorizeUser} action="Sign In" />
   </>
 )
 

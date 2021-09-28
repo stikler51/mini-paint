@@ -1,18 +1,23 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useAppSelector } from '../../store/hooks'
 import styles from './authorizationForm.module.scss'
-import { UserReduxSliceType } from '../../types/types'
+import { UserReduxSliceType, AuthorizationFormInputs } from '../../types/types'
+import { useForm } from 'react-hook-form'
 
 type PropsType = {
-  cb: (mail: string, pass: string) => void // Fn for authorization or registration
+  onSubmit: ({ email, password }: AuthorizationFormInputs) => void // Fn for authorization or registration
   action: string
 }
 
 // component used for authorization and registration actions
-const AuthorizationForm = ({ cb, action }: PropsType) => {
-  const [email, setEmail] = useState<string>('') // input email value
-  const [password, setPassword] = useState<string>('') // input password value
+const AuthorizationForm = ({ onSubmit, action }: PropsType) => {
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm<AuthorizationFormInputs>()
+
   // needed for applying right action to form (authorization or registration)
   const { pathname } = useLocation<string>()
 
@@ -21,36 +26,26 @@ const AuthorizationForm = ({ cb, action }: PropsType) => {
 
   return (
     <div className={styles[theme]}>
-      <form className={styles.authorizationForm}>
+      <form className={styles.authorizationForm} onSubmit={handleSubmit(onSubmit)}>
         <div className="mb-2">
           <input
             type="email"
             placeholder="E-mail"
             className="form-control"
-            value={email}
-            onInput={(e) => setEmail(e.currentTarget.value)}
-            required
+            {...register('email', { required: true })}
           />
+          {errors.email?.type === 'required' && <span className={styles.error}>Email is required</span>}
         </div>
         <div className="mb-2">
           <input
             type="password"
             placeholder="Password"
             className="form-control"
-            value={password}
-            onInput={(e) => setPassword(e.currentTarget.value)}
-            required
+            {...register('password', { required: true })}
           />
+          {errors.password?.type === 'required' && <span className={styles.error}>Password is required</span>}
         </div>
-        <input
-          type="submit"
-          className="btn btn-primary"
-          onClick={(e) => {
-            e.preventDefault() // don't refresh page
-            cb(email, password)
-          }}
-          value={action}
-        />
+        <input type="submit" className="btn btn-primary" value={action} />
         {pathname === '/signin' ? (
           <span>
             Don&apos;t have account?
@@ -59,7 +54,6 @@ const AuthorizationForm = ({ cb, action }: PropsType) => {
         ) : (
           ''
         )}
-
         {user && user.errors ? <span className={styles.error}>{user.errors}</span> : ''}
       </form>
     </div>
