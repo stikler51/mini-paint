@@ -1,10 +1,9 @@
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth'
+import { onAuthStateChanged, signOut } from 'firebase/auth'
 import { auth } from './firebase'
 import store from '../store/store'
 import { login, logout, setError } from '../store/userSlice'
 import { startLoading, stopLoading } from '../store/loadingSlice'
-import { saveUser } from './db'
-import { UserObjectType, AuthorizationFormInputs } from '../types/types'
+import { UserObjectType } from '../types/types'
 
 // Changing redux user state on every login/logout event
 onAuthStateChanged(auth, (user) => {
@@ -20,44 +19,15 @@ onAuthStateChanged(auth, (user) => {
   }
   sessionStorage.setItem('mini-paint-loggedIn', 'false')
   store.dispatch(stopLoading())
-  store.dispatch(logout())
+  // store.dispatch(logout())
   store.dispatch(setError(null))
 })
 
-export const authorizeUser = ({ email, password }: AuthorizationFormInputs): void => {
-  store.dispatch(startLoading())
-  signInWithEmailAndPassword(auth, email, password)
-    .then(() => {
-      sessionStorage.setItem('mini-paint-loggedIn', 'true')
-    })
-    .catch((error) => {
-      store.dispatch(setError(error.message))
-      store.dispatch(stopLoading())
-    })
-}
+// export const authorizeUser = async ({ email, password }: AuthorizationFormInputs) => {
+//   return signInWithEmailAndPassword(auth, email, password)
+// }
 
-export const registerUser = ({ email, password }: AuthorizationFormInputs): string | void => {
-  store.dispatch(startLoading())
-  createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      sessionStorage.setItem('mini-paint-loggedIn', 'true')
-      return userCredential.user.uid
-    })
-    .then((uid) => {
-      saveUser(uid, email)
-    })
-    .catch((error) => {
-      store.dispatch(stopLoading())
-      store.dispatch(setError(error.message))
-    })
-}
-
-export const signOutUser = () => {
-  store.dispatch(startLoading())
-  sessionStorage.setItem('mini-paint-loggedIn', 'false')
-  signOut(auth)
-    .then(() => {})
-    .catch(() => {
-      store.dispatch(stopLoading())
-    })
-}
+// export const registerUser = ({ email, password }: AuthorizationFormInputs): Promise<any> => {
+//   return createUserWithEmailAndPassword(auth, email, password)
+// }
+export const signOutUser = () => {}

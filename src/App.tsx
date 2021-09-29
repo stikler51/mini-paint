@@ -12,7 +12,6 @@ import LoadingIndicator from './components/layout/loader/loader'
 import Modal from './components/layout/modal/modal'
 import Gallery from './pages/gallery'
 import PrivateRoute from './routes/privateRoute'
-import { Sign } from 'crypto'
 
 function App() {
   return (
