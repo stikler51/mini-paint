@@ -4,10 +4,14 @@ import { useAppSelector } from '../../../store/hooks'
 import { signOutUser } from '../../../firebase/auth'
 import styles from './header.module.scss'
 import { UserReduxSliceType } from '../../../types/types'
+import { logOutUser } from '../../../store/userSlice'
+import { useAppDispatch } from '../../../store/hooks'
 
 const Header = () => {
-  const { loggedIn, user } = useAppSelector<UserReduxSliceType>((state) => state.user.value)
+  const { loggedIn, user } = useAppSelector<UserReduxSliceType>((state) => state.user?.value)
   const theme = useAppSelector<string>((state) => state.theme.value)
+  const dispatch = useAppDispatch()
+
   return (
     <header className={`${styles[theme]}`}>
       <div className={`container ${styles.wrapper}`}>
@@ -21,8 +25,12 @@ const Header = () => {
               <NavLink to="/user">{user?.email}</NavLink>
               !&nbsp;
             </span>
-            <button className="btn btn-danger" type="button" onClick={signOutUser}>
+            {/* Если эту кнопку раскомментить, то все работает нормально */}
+            {/* <button className="btn btn-danger" type="button" onClick={() => signOutUser()}>
               Log Out
+            </button> */}
+            <button className="btn btn-danger" type="button" onClick={() => dispatch(logOutUser())}>
+              Log Out 2
             </button>
           </div>
         ) : (

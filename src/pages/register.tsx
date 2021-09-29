@@ -1,12 +1,20 @@
 import React from 'react'
 import AuthorizationForm from '../components/authorizationForm/authorizationForm'
-import { registerUser } from '../firebase/auth'
+import { signUpUser } from '../store/userSlice'
+import { useAppDispatch } from '../store/hooks'
+import { AuthorizationFormInputs } from '../types/types'
 
-const Register = () => (
-  <>
-    <h1>Register page</h1>
-    <AuthorizationForm onSubmit={registerUser} action="Sign Up" />
-  </>
-)
+const Register = () => {
+  const dispatch = useAppDispatch()
+  return (
+    <>
+      <h1>Register page</h1>
+      <AuthorizationForm
+        onSubmit={({ email, password }: AuthorizationFormInputs) => dispatch(signUpUser({ email, password }))}
+        action="Sign Up"
+      />
+    </>
+  )
+}
 
 export default Register

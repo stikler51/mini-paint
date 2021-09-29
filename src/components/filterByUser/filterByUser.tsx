@@ -16,10 +16,6 @@ const FilterByUser = ({ onFilter }: FilterProps) => {
     })
   }, [])
 
-  const changeHandler = (data: string): void => {
-    onFilter(data)
-  }
-
   return (
     <div className="mb-4 col-3">
       <span>Filter by user</span>
@@ -27,7 +23,7 @@ const FilterByUser = ({ onFilter }: FilterProps) => {
         list="users"
         placeholder="Start typing..."
         className="form-control"
-        onChange={(e) => changeHandler(e.currentTarget.value)}
+        onChange={(e) => onFilter(e.currentTarget.value)}
       />
       <datalist id="users">
         {users.map((user: DocumentData) => (

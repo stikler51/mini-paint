@@ -13,7 +13,7 @@ const User = () => {
     if (user) {
       getAllArtsByUser(user.uid).then((data: QueryDocumentSnapshot<DocumentData>[]) => setGallery(data))
     }
-  }, [])
+  }, [user])
 
   const removeArt = (id: string) => {
     deleteArt(id)
