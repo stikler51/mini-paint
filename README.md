@@ -41,6 +41,7 @@ Your app is ready to be deployed!
 ### `npm run lint`
 
 Runs ESlint
+
 ### `npm run format`
 
 Formats code with Prettier

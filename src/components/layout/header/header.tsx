@@ -1,7 +1,6 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { useAppSelector } from '../../../store/hooks'
-import { signOutUser } from '../../../firebase/auth'
 import styles from './header.module.scss'
 import { UserReduxSliceType } from '../../../types/types'
 import { logOutUser } from '../../../store/userSlice'
@@ -25,12 +24,8 @@ const Header = () => {
               <NavLink to="/user">{user?.email}</NavLink>
               !&nbsp;
             </span>
-            {/* Если эту кнопку раскомментить, то все работает нормально */}
-            {/* <button className="btn btn-danger" type="button" onClick={() => signOutUser()}>
-              Log Out
-            </button> */}
             <button className="btn btn-danger" type="button" onClick={() => dispatch(logOutUser())}>
-              Log Out 2
+              Log Out
             </button>
           </div>
         ) : (

@@ -90,7 +90,6 @@ export const userSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(loginUser.fulfilled, (state: UserReduxState, action: any) => {
-        // console.log('extra', action)
         if (typeof action.payload === 'string') {
           // means, that it is error
           state.value = {
@@ -107,7 +106,6 @@ export const userSlice = createSlice({
         }
       })
       .addCase(signUpUser.fulfilled, (state: UserReduxState, action: any) => {
-        // console.log('extra', action)
         if (typeof action.payload === 'string') {
           // means, that it is error
           state.value = {
@@ -124,7 +122,6 @@ export const userSlice = createSlice({
         }
       })
       .addCase(logOutUser.fulfilled, (state: UserReduxState) => {
-        console.log('here')
         state.value = {
           user: null,
           loggedIn: false,
