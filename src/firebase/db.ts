@@ -1,9 +1,7 @@
-import { collection, query, doc, getDocs, addDoc, deleteDoc, updateDoc, getDoc, where } from 'firebase/firestore'
+import { collection, doc, addDoc, updateDoc, getDoc } from 'firebase/firestore'
 import { db } from './firebase'
 import { startLoading, stopLoading } from '../store/loadingSlice'
 import store from '../store/store'
-
-const q = query(collection(db, 'art'))
 
 export const saveArt = async (imageData: string) => {
   store.dispatch(startLoading())

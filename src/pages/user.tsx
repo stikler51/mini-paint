@@ -8,6 +8,7 @@ const User = () => {
   const { user } = useAppSelector<UserReduxSliceType>((state) => state.user.value)
   const dispatch = useAppDispatch()
 
+  // setting filterUser to current user to show only user's arts
   useEffect(() => {
     dispatch(filterByUser(user?.email))
   }, [user])

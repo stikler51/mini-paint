@@ -8,6 +8,7 @@ const Gallery = () => {
   const gallery = useAppSelector((state) => state.gallery.value)
   const dispatch = useAppDispatch()
 
+  // setting filterUser to '' to load all arts
   useEffect(() => {
     dispatch(filterByUser(''))
   }, [])

@@ -10,7 +10,7 @@ const ImageGallery = () => {
   const dispatch = useAppDispatch()
   const { user } = useAppSelector<UserReduxSliceType>((state) => state.user.value)
   const theme = useAppSelector<string>((state) => state.theme.value)
-  const reduxGallery = useAppSelector((state) => state.gallery.value)
+  const gallery = useAppSelector((state) => state.gallery.value)
   const { selectedUser } = useAppSelector((state) => state.filter.value)
 
   useEffect(() => {
@@ -23,9 +23,9 @@ const ImageGallery = () => {
 
   return (
     <>
-      {!reduxGallery.length ? 'There is no any drawings yet.' : ''}
+      {!gallery.length ? 'There is no any drawings yet.' : ''}
       <div className={styles[theme]}>
-        {reduxGallery.map((doc: galleryArt) => (
+        {gallery.map((doc: galleryArt) => (
           <div key={doc.id} className={styles.artWrapper}>
             <img src={doc.imageData} alt={doc.id} />
             <div className={styles.actionsLayer}>

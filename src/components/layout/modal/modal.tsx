@@ -10,11 +10,7 @@ const Modal = () => {
   const dispatch = useAppDispatch()
   const modalRef = useRef<HTMLDivElement>(null)
 
-  const clickOutsideCb = () => {
-    dispatch(closeModal())
-  }
-
-  useClickOutside(modalRef, clickOutsideCb)
+  useClickOutside(modalRef, () => dispatch(closeModal()))
 
   if (isOpen) {
     return (
