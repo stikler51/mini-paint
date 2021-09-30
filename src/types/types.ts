@@ -1,5 +1,3 @@
-import { ReactChild } from 'react'
-
 export type UserObjectType = {
   email: string
   uid: string
@@ -34,6 +32,15 @@ export type ModalReduxState = {
   value: ModalReduxSliceType
 }
 
+export type FilterReduxState = {
+  value: FilterReduxSlice
+}
+
+export type FilterReduxSlice = {
+  users: UserObjectType[]
+  selectedUser: string
+}
+
 export type ArtReduxSliceType = {
   currentPosition: number
   artHistory: string[]
@@ -46,6 +53,18 @@ export type ArtReduxState = {
 
 export type LoadingReduxState = {
   value: boolean
+}
+
+export type galleryReduxState = {
+  value: galleryArt[]
+}
+
+export type galleryArt = {
+  id: string
+  imageData: string
+  uid: string
+  email: string
+  created: number
 }
 
 export type ThemeReduxState = {

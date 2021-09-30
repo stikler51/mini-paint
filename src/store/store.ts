@@ -5,6 +5,8 @@ import toolReducer from './toolSlice'
 import artReducer from './artSlice'
 import modalReducer from './modalSlice'
 import themeReducer from './themeSlice'
+import filterReducer from './filterSlice'
+import galleryReducer from './gallerySlice'
 
 const store = configureStore({
   reducer: {
@@ -14,6 +16,8 @@ const store = configureStore({
     art: artReducer,
     modal: modalReducer,
     theme: themeReducer,
+    filter: filterReducer,
+    gallery: galleryReducer,
   },
 })
 
