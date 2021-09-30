@@ -1,19 +1,14 @@
-import { DocumentData, QueryDocumentSnapshot } from '@firebase/firestore'
-import React, { useEffect, useState } from 'react'
-import { getAllUsers } from '../../firebase/db'
+import React, { useEffect } from 'react'
+import { useAppDispatch, useAppSelector } from '../../store/hooks'
+import { loadAllUsers, filterByUser } from '../../store/filterSlice'
+import { UserObjectType } from '../../types/types'
 
-type FilterProps = {
-  onFilter: (value: string) => void
-}
-
-const FilterByUser = ({ onFilter }: FilterProps) => {
-  const [users, setUsers] = useState<DocumentData[]>([])
+const FilterByUser = () => {
+  const { users } = useAppSelector((state) => state.filter.value)
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
-    getAllUsers().then((data: QueryDocumentSnapshot<DocumentData>[]) => {
-      const usersData: DocumentData[] = data.map((user) => user.data())
-      setUsers(usersData)
-    })
+    dispatch(loadAllUsers())
   }, [])
 
   return (
@@ -23,10 +18,10 @@ const FilterByUser = ({ onFilter }: FilterProps) => {
         list="users"
         placeholder="Start typing..."
         className="form-control"
-        onChange={(e) => onFilter(e.currentTarget.value)}
+        onChange={(e) => dispatch(filterByUser(e.currentTarget.value))}
       />
       <datalist id="users">
-        {users.map((user: DocumentData) => (
+        {users.map((user: UserObjectType) => (
           <option key={user.email} value={user.email}>
             {user.email}
           </option>

@@ -1,42 +1,22 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import ImageGallery from '../components/imageGallery/imageGallery'
-import { getAllArts, deleteArt, getAllArtsByUserEmail } from '../firebase/db'
 import FilterByUser from '../components/filterByUser/filterByUser'
-import { DocumentData, QueryDocumentSnapshot } from '@firebase/firestore'
+import { useAppDispatch, useAppSelector } from '../store/hooks'
+import { filterByUser } from '../store/filterSlice'
 
 const Gallery = () => {
-  const [gallery, setGallery] = useState<DocumentData[]>([])
-  const [filterValue, setFilterValue] = useState<string>('')
+  const gallery = useAppSelector((state) => state.gallery.value)
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
-    getAllArts().then((data: DocumentData[]) => {
-      setGallery(data)
-    })
+    dispatch(filterByUser(''))
   }, [])
-
-  useEffect(() => {
-    if (!filterValue) {
-      getAllArts().then((data: QueryDocumentSnapshot<DocumentData>[]) => {
-        setGallery(data)
-      })
-    } else {
-      getAllArtsByUserEmail(filterValue).then((data: QueryDocumentSnapshot<DocumentData>[]) => {
-        setGallery(data)
-      })
-    }
-  }, [filterValue])
-
-  const removeArt = (id: string) => {
-    deleteArt(id)
-    const gal: DocumentData[] = gallery.filter((image: DocumentData) => image.id !== id)
-    setGallery(gal)
-  }
 
   return (
     <>
       <h1>Gallery page</h1>
-      <FilterByUser onFilter={setFilterValue} />
-      <ImageGallery gallery={gallery} onRemove={(id) => removeArt(id)} />
+      <FilterByUser />
+      <ImageGallery />
       {!gallery.length ? <p>Check the filter value</p> : ''}
     </>
   )

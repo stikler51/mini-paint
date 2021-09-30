@@ -21,11 +21,7 @@ const ToolPanel = () => {
   const theme = useAppSelector<string>((state) => state.theme.value)
   const dispatch = useAppDispatch()
 
-  const clickOutsideCb = () => {
-    setOpenWidthButton(false)
-  }
-
-  useClickOutside(wrapperRef, clickOutsideCb)
+  useClickOutside(wrapperRef, () => setOpenWidthButton(false))
 
   return (
     <div className={styles[theme]}>

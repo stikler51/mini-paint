@@ -1,20 +1,21 @@
-import React from 'react'
-import { DocumentData } from '@firebase/firestore'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useAppSelector, useAppDispatch } from '../../store/hooks'
 import { openModal } from '../../store/modalSlice'
 import styles from './imageGallery.module.scss'
-import { UserReduxSliceType } from '../../types/types'
+import { UserReduxSliceType, galleryArt } from '../../types/types'
+import { loadAllArts, removeArt } from '../../store/gallerySlice'
 
-type GalleryProps = {
-  gallery: DocumentData[]
-  onRemove: (id: string) => void
-}
-
-const ImageGallery = ({ gallery, onRemove }: GalleryProps) => {
+const ImageGallery = () => {
   const dispatch = useAppDispatch()
   const { user } = useAppSelector<UserReduxSliceType>((state) => state.user.value)
   const theme = useAppSelector<string>((state) => state.theme.value)
+  const reduxGallery = useAppSelector((state) => state.gallery.value)
+  const { selectedUser } = useAppSelector((state) => state.filter.value)
+
+  useEffect(() => {
+    dispatch(loadAllArts(selectedUser))
+  }, [selectedUser])
 
   const viewArt = (imageData: string): void => {
     dispatch(openModal(imageData))
@@ -22,21 +23,21 @@ const ImageGallery = ({ gallery, onRemove }: GalleryProps) => {
 
   return (
     <>
-      {!gallery.length ? 'There is no any drawings yet.' : ''}
+      {!reduxGallery.length ? 'There is no any drawings yet.' : ''}
       <div className={styles[theme]}>
-        {gallery.map((doc: DocumentData) => (
+        {reduxGallery.map((doc: galleryArt) => (
           <div key={doc.id} className={styles.artWrapper}>
-            <img src={doc.data().imageData} alt={doc.id} />
+            <img src={doc.imageData} alt={doc.id} />
             <div className={styles.actionsLayer}>
-              <button className={styles.actionButton} type="button" onClick={() => viewArt(doc.data().imageData)}>
+              <button className={styles.actionButton} type="button" onClick={() => viewArt(doc.imageData)}>
                 <img src="./icons/focus.svg" alt="View" />
               </button>
-              {user && doc.data().uid === user.uid ? (
+              {user && doc.uid === user.uid ? (
                 <>
                   <Link to={`editor/${doc.id}`} className={styles.actionButton}>
                     <img src="./icons/edit.svg" alt="Edit" />
                   </Link>
-                  <button className={styles.actionButton} type="button" onClick={() => onRemove(doc.id)}>
+                  <button className={styles.actionButton} type="button" onClick={() => dispatch(removeArt(doc.id))}>
                     <img src="./icons/delete.svg" alt="Delete" />
                   </button>
                 </>
@@ -46,11 +47,11 @@ const ImageGallery = ({ gallery, onRemove }: GalleryProps) => {
               <div className={styles.aboutArt}>
                 <p>
                   Author:
-                  {user && doc.data().uid === user.uid ? ' You' : ` ${doc.data().email}`}
+                  {user && doc.uid === user.uid ? ' You' : ` ${doc.email}`}
                 </p>
                 <p>
                   Created:
-                  {` ${new Date(doc.data().created.seconds * 1000).toLocaleString()}`}
+                  {` ${new Date(doc.created * 1000).toLocaleString()}`}
                 </p>
               </div>
             </div>

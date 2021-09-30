@@ -1,25 +1,16 @@
-import React, { useEffect, useState } from 'react'
-import { useAppSelector } from '../store/hooks'
+import React, { useEffect } from 'react'
+import { useAppSelector, useAppDispatch } from '../store/hooks'
 import ImageGallery from '../components/imageGallery/imageGallery'
-import { getAllArtsByUser, deleteArt } from '../firebase/db'
-import { DocumentData, QueryDocumentSnapshot } from '@firebase/firestore'
 import { UserReduxSliceType } from '../types/types'
+import { filterByUser } from '../store/filterSlice'
 
 const User = () => {
-  const [gallery, setGallery] = useState<DocumentData[]>([])
   const { user } = useAppSelector<UserReduxSliceType>((state) => state.user.value)
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
-    if (user) {
-      getAllArtsByUser(user.uid).then((data: QueryDocumentSnapshot<DocumentData>[]) => setGallery(data))
-    }
+    dispatch(filterByUser(user?.email))
   }, [user])
-
-  const removeArt = (id: string) => {
-    deleteArt(id)
-    const gal = gallery.filter((image: DocumentData) => image.id !== id)
-    setGallery(gal)
-  }
 
   return (
     <>
@@ -38,7 +29,7 @@ const User = () => {
       ) : (
         ''
       )}
-      <ImageGallery gallery={gallery} onRemove={(id) => removeArt(id)} />
+      <ImageGallery />
     </>
   )
 }
