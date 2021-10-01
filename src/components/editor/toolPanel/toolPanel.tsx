@@ -64,7 +64,7 @@ const ToolPanel = () => {
         <div style={{ background: color }} className={styles.colorIndicator}>
           <input
             type="color"
-            onBlur={(e) => dispatch(setColor(e.target.value))}
+            onChange={(e) => dispatch(setColor(e.target.value))}
             className={styles.colorPicker}
             defaultValue={color}
           />
