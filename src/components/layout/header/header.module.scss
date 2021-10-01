@@ -10,10 +10,29 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 40px;
   }
   .logo {
     height: 40px;
     width: auto;
+  }
+  .menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    flex-grow: 1;
+    justify-content: flex-start;
+    a {
+      font-size: 16px;
+      text-decoration: none;
+      color: $lightTextColor;
+      transition: 0.3s;
+
+      &:hover {
+        color: lighten($lightTextColor, 40);
+      }
+    }
   }
 }
 

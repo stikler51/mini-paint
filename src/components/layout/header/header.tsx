@@ -17,6 +17,11 @@ const Header = () => {
         <NavLink to="/">
           <img className={styles.logo} src="/mini-paint-logo.png" alt="Logo" />
         </NavLink>
+        <div className={styles.menu}>
+          <NavLink to="/">Home</NavLink>
+          <NavLink to="/editor">Editor</NavLink>
+          <NavLink to="/gallery">Gallery</NavLink>
+        </div>
         {loggedIn ? (
           <div>
             <span>
