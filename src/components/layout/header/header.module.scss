@@ -32,6 +32,10 @@
       &:hover {
         color: lighten($lightTextColor, 40);
       }
+
+      &.active {
+        color: lighten($lightTextColor, 40);
+      }
     }
   }
 }

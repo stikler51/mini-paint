@@ -19,8 +19,12 @@ const Header = () => {
         </NavLink>
         <div className={styles.menu}>
           <NavLink to="/">Home</NavLink>
-          <NavLink to="/editor">Editor</NavLink>
-          <NavLink to="/gallery">Gallery</NavLink>
+          <NavLink to="/editor" activeClassName={styles.active}>
+            Editor
+          </NavLink>
+          <NavLink to="/gallery" activeClassName={styles.active}>
+            Gallery
+          </NavLink>
         </div>
         {loggedIn ? (
           <div>
